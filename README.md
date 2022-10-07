@@ -54,7 +54,7 @@ We will join user interactions dataset and recipe dataset based on recipe_id. Wi
 ## Results & Discussion
 
 ### CNN Module
-We will be training the Food-101 dataset using pre-trained CNN architectures like DenseNets and ResNets to classify the image into one of the 101 categories. To evaluate the model performance, we will be using **top-1** and **top-5 classification accuracy** on the predictions.
+We will be training the Food-101 dataset using pre-trained CNN architectures like DenseNets and ResNets to classify the image into one of the 101 categories. To evaluate the model performance, we will be using **top-1** and **top-5** classification accuracy on the predictions.
 
 ### Reccomendation System Module
 
