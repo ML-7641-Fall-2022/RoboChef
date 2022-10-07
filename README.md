@@ -28,7 +28,7 @@ The modular nature of above problems lends to multiple usecases:
 We approach the above problem
 ![Getting Started](./images/ml_project_pipeline.jpg)
 
-### CNN Classification Module
+### Classification Module
 ### Reccomendation System Module
 
 ## Data Collection
