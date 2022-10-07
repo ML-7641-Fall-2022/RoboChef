@@ -63,7 +63,9 @@ We will join user interactions dataset and recipe dataset based on recipe_id. Wi
 <a id="Trang">[1]</a> 
 Trang Tran, T.N., Atas, M., Felfernig, A. et al. An overview of recommender systems in the healthy food domain. J Intell Inf Syst 50, 501–526 (2018). https://doi.org/10.1007/s10844-017-0469-0
 
-<a id="2">[2]</a> 
+<a id="2">[2]</a>
+Kaggle Data set for User food Interactions
+https://www.kaggle.com/datasets/shuyangli94/food-com-recipes-and-user-interactions?select=RAW_recipes.csv
 
 <a id="3">[2]</a> 
 
