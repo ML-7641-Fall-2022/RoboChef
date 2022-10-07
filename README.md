@@ -8,27 +8,38 @@ Machine Learning systems today aid decision making across the entrire spectrum o
 In this project we thus aim to build a ML system, that aids multiple aspects of Meal Choice decision.
 
 ## Problem Definition
-As stated above, we want to target multiple aspects of the Meal Choice decision:
+We want to tackle two main problems here:
 
 1. **Given an image of a food item, what are the key ingredients in the food?**
+
 2. **Given my previous interaction with food items, can you recommend me similar foods?**
-    * Can the reccomendation also account for additional constraints placed by me like nutritional requirements etc ?
+    * Can the reccomendation also account for additional constraints from user like nutritional requirements etc?
+
 
 ### Usecases
-The modular nature of above problems lends to multiple usecases:
+The modular nature of above problems lends itself to multiple usecases:
 * When encountered with an unknown food item, the user might want to know its ingredients, such that he can figure out:
-    - If the dish is healthy?
+    - Is the dish healthy?
     - If the dish contains allergens?
+
 * As a next step, user might want reccomendations for similar dishes that he took image of. Additionally, there can be numerous additional constraints placed on the reccomendations recieved like:
     - Restrict reccomendations to ingredients he already has
     - Constrain by the nutritional requirements of the dish, say the user wants only "low calorie" dishes.
 
 
 ## Methodology
-We approach the above problem
+We divide our project pipeline into three main stages:
+
+1. **Classfication System**: This stage would take as input food images and passes them through a CNN to output food labels. The output of this stage is (**Output 1**), and flows to next stage, but can also be used independently.
+
+2. **Food to Ingredient Mapping**: Output 1 from CNN is then querried through a database housing the mapping between food items and their respective ingredients, to yeild **Output 2**. This can again either be used independtly or overlaid over reccomendation system as a filter.
+
+3. **Reccomendation System**: In this stage we reccommend the user additional food items: **Output 3** basis his (&other individuals) interactions. We also allow for the user to place additional constraints over the reccomendations.
+
+The schematic of these stages is given below:
 ![Getting Started](./images/ml_project_pipeline.jpg)
 
-### Classification Module
+### CNN Module
 ### Reccomendation System Module
 
 ## Data Collection
@@ -39,7 +50,7 @@ We approach the above problem
 
 ## Refrences
 
-<a id="1">[1]</a> 
+<a id="Trang">[1]</a> 
 Trang Tran, T.N., Atas, M., Felfernig, A. et al. An overview of recommender systems in the healthy food domain. J Intell Inf Syst 50, 501–526 (2018). https://doi.org/10.1007/s10844-017-0469-0
 
 <a id="2">[2]</a> 
