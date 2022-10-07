@@ -40,6 +40,8 @@ The schematic of these stages is given below:
 ![Getting Started](./images/ml_project_pipeline.jpg)
 
 ### CNN Module
+We will be training the Food-101 dataset using pre-trained CNN architectures like DenseNets and ResNets to classify the image into one of the 101 categories. To evaluate the model performance, we will be using top-1 and top-5 classification accuracy on the predictions.
+
 ### Reccomendation System Module
 
 ## Data Collection
