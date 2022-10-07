@@ -45,6 +45,14 @@ We will be training the Food-101 dataset using pre-trained CNN architectures lik
 ### Reccomendation System Module
 
 ## Data Collection
+### Data for Recommendation system
+[Dataset Source]('https://www.kaggle.com/datasets/shuyangli94/food-com-recipes-and-user-interactions?select=RAW_recipes.csv')
+
+In this part, we’re using data from the Food.com Recipes and Interactions, which contains 2 datasets: user interactions data and recipe dataset 
+   - user interactions dataset: This dataset contains the user Id and users’ interaction with recipes, such as rating and review. 
+   - recipe dataset: This dataset contains the recipe information recipe ID, nutrition information, steps to cook, time to cook, etc.
+
+We will join user interactions dataset and recipe dataset based on recipe_id. With the joined data, we’ll use our recommendation system to study user preferences and recommend recipes to users based on their previous behaviors, and optionally input from the ingredient we get from the classification task.
 
 ## Results & Discussion
 
