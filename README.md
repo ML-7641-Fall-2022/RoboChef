@@ -20,7 +20,7 @@ The modular nature of above problems lends itself to multiple usecases:
     - Is the dish healthy?
     - If the dish contains allergens?
 
-* As a next step, user might want reccomendations for similar dishes that he took image of. Additionally, there can be numerous additional constraints placed on the reccomendations recieved like:
+* As a next step, user might want recomendations for similar dishes that he took image of. Additionally, there can be numerous additional constraints placed on the reccomendations recieved like:
     - Restrict reccomendations to ingredients he already has
     - Constrain by the nutritional requirements of the dish, say the user wants only "low calorie" dishes.
 
