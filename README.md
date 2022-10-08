@@ -81,8 +81,7 @@ Trang Tran, T.N., Atas, M., Felfernig, A. et al. An overview of recommender syst
 Kaggle Data set for User food Interactions
 https://www.kaggle.com/datasets/shuyangli94/food-com-recipes-and-user-interactions?select=RAW_recipes.csv
 
-<a id="3">[3]</a> 
-https://www.researchgate.net/publication/340688231_Food_Image_Recognition_Based_on_Densely_Connected_Convolutional_Neural_Networks
+<a id="3">[3]</a> https://www.researchgate.net/publication/340688231_Food_Image_Recognition_Based_on_Densely_Connected_Convolutional_Neural_Networks
 
 ## Project Logistics
 ### Contribution table
