@@ -13,7 +13,7 @@ We want to tackle two main problems here:
 1. **Given an image of a food item, what are the key ingredients in the food?**
 
 2. **Given my previous interaction with food items, can you recommend me similar foods?**
-    * Can the recommendation also account for additional constraints from user like nutritional requirements etc?
+    * Can the reccomendation also account for additional constraints from user like nutritional requirements etc?
 
 
 ### Usecases
@@ -59,7 +59,7 @@ We will be training the Food-101 dataset using pre-trained CNN architectures lik
 
 We will use the user-food interaction data which contains the temporal food-item ratings given by users to provide recommendations for similar food items leveraging the user-user collaborative filtering and matrix factorization techniques.\n
 
-![Collabartive Filtering]:(./images/collaborative_filtering.png?raw=true)
+![Collabartive Filtering](./images/collaborative_filtering.png)
 
 The matrix factorization method will use the concept of Truncated Singular Value Decomposition to obtain highly predictive latent features sparse ratings matrix and provide a fair approximation of predictions of new items ratings.
 
