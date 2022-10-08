@@ -1,7 +1,7 @@
 # RoboChef
 
 ## Background
-Machine Learning systems today aid decision making across the entire spectrum of life. One such decision, that each human has to make daily is his/her "meal choice". The said decision depends on a multitude of factors like nutritional requirements, eating preferences and mood etc. Thus, meal choice presents a lot of variability not only in between two different indviduals but also for the same indvidual.
+Machine Learning systems today aid decision making across the entire spectrum of life. One such decision, that each human has to make daily is his/her "meal choice". The said decision depends on a multitude of factors like nutritional requirements, eating preferences and mood etc.
 
 In this project we thus aim to build a ML system, that aids multiple aspects of Meal Choice decision.
 
@@ -10,8 +10,8 @@ We want to tackle two main problems here:
 
 1. **Given an image of a food item, what are the key ingredients in the food?**
 
-2. **Given my previous interaction with food items, can you recommend me similar foods?**
-    * Can the recommendation also account for additional constraints from user like nutritional requirements etc?
+2. **What food items should we recommend to a user based on his preferences and other similar users' food choices?**
+    * Can the recommendation also account for additional constraints from user like nutritional requirements, calories level, etc?
 
 
 ### Usecases
@@ -64,6 +64,7 @@ The matrix factorization method will use the concept of Truncated Singular Value
 ### Points for further exploration
 
 - Applications of autoencoders to learn underlying feature representation and provide a more personalized recommendation.
+- Added functionality to recommend the food items that can be prepared using the ingredients image a user has uploaded.
 
 ## Results & Discussion
 
