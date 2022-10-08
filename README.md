@@ -85,6 +85,10 @@ https://www.kaggle.com/datasets/shuyangli94/food-com-recipes-and-user-interactio
 A. -S. Metwalli, W. Shen and C. Q. Wu, "Food Image Recognition Based on Densely Connected Convolutional Neural Networks," 2020 International Conference on Artificial Intelligence in Information and Communication (ICAIIC), 2020, pp. 027-032, doi: 10.1109/ICAIIC48513.2020.9065281.
 https://www.researchgate.net/publication/340688231_Food_Image_Recognition_Based_on_Densely_Connected_Convolutional_Neural_Networks
 
+<a id="4">[4]</a>
+Food 101 DataSet
+https://www.kaggle.com/datasets/dansbecker/food-101
+
 ## Project Logistics
 ### Contribution table
 
