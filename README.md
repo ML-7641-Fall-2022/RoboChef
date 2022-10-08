@@ -40,6 +40,11 @@ The schematic of these stages is given below:
 
 
 ## Data Collection
+### Data for CNN Module
+[Dataset Source](https://www.kaggle.com/datasets/dansbecker/food-101)
+
+We will be using Food-101 dataset for the CNN classification which consists of 101 food categories with a total of 101,000 images. 
+
 ### Data for Recommendation system
 [Dataset Source](https://www.kaggle.com/datasets/shuyangli94/food-com-recipes-and-user-interactions?select=RAW_recipes.csv)
 
@@ -48,12 +53,6 @@ In this part, we’re using data from the Food.com Recipes and Interactions, whi
    - recipe dataset: This dataset contains the recipe information recipe ID, nutrition information, steps to cook, time to cook, etc.
 
 We will join user interactions dataset and recipe dataset based on recipe_id. With the joined data, we’ll use our recommendation system to study user preferences and recommend recipes to users based on their previous behaviors, and optionally input from the ingredient we get from the classification task.
-
-
-### Data for CNN Module
-[Dataset Source](https://www.kaggle.com/datasets/dansbecker/food-101)
-
-We will be using Food-101 dataset for the CNN classification which consists of 101 food categories with a total of 101,000 images. 
 
 
 ## Results & Discussion
