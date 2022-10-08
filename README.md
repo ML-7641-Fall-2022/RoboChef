@@ -61,7 +61,7 @@ We will use the user-food interaction data which contains the temporal food-item
 
 ![Collabartive Filtering](./images/collaborative_filtering.png?raw=true)
 
-The matrix factorization method will use the concept of Truncated Singular Value Decomposition to obtain highly predictive latent features sparse ratings matrix and provide a fair approximation of predictions of new items ratings.
+The matrix factorization method will use the concept of Truncated Singular Value Decomposition to obtain highly predictive latent features using the sparse ratings matrix and provide a fair approximation of predictions of new items ratings.
 
 ### Points for further exploration
 
