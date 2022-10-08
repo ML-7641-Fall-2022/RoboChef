@@ -71,7 +71,7 @@ The matrix factorization method will use the concept of Truncated Singular Value
 
 ## Conclusion
 
-## Refrences
+## References
 
 <a id="Trang">[1]</a> 
 Trang Tran, T.N., Atas, M., Felfernig, A. et al. An overview of recommender systems in the healthy food domain. J Intell Inf Syst 50, 501–526 (2018). https://doi.org/10.1007/s10844-017-0469-0
@@ -80,7 +80,8 @@ Trang Tran, T.N., Atas, M., Felfernig, A. et al. An overview of recommender syst
 Kaggle Data set for User food Interactions
 https://www.kaggle.com/datasets/shuyangli94/food-com-recipes-and-user-interactions?select=RAW_recipes.csv
 
-<a id="3">[2]</a> 
+<a id="3">[3]</a> 
+Al-Selwi, Metwalli & Shen, Wei & Wu, Chase. (2020). Food Image Recognition Based on Densely Connected Convolutional Neural Networks. 027-032. 10.1109/ICAIIC48513.2020.9065281.
 
 ## Project Logistics
 ### Contribution table
