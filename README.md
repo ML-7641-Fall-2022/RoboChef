@@ -52,6 +52,7 @@ We will join user interactions dataset and recipe dataset based on recipe_id. Wi
 
 ### Data for CNN Module
 [Dataset Source](https://www.kaggle.com/datasets/dansbecker/food-101)
+
 We will be using Food-101 dataset for the CNN classification which consists of 101 food categories with a total of 101,000 images. 
 
 We will be training the Food-101 dataset using pre-trained CNN architectures like DenseNets and ResNets to classify the image into one of the 101 categories. To evaluate the model performance, we will be using **top-1** and **top-5** classification accuracy on the predictions.
