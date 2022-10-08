@@ -1,7 +1,7 @@
 # RoboChef
 
 ## Background
-Machine Learning systems today aid decision making across the entire spectrum of life. One such decision, that each human has to make daily is his/her "meal choice". The said decision depends on a multitude of factors like nutritional requirements, eating preferences and mood etc.
+Machine Learning systems today aid decision making across the entire spectrum of life. One such decision, that each human has to make daily is his/her "meal choice" . The said decision depends on a multitude of factors like nutritional requirements, eating preferences and mood etc.
 
 In this project we thus aim to build a ML system, that aids multiple aspects of Meal Choice decision.
 
