@@ -1,7 +1,3 @@
-# RoboChef
-This repository contains source code for ML-7641 Fall-22 Project
-
-
 ## Background
 Machine Learning systems today aid decision making across the entrire spectrum of life. One of such relevant decision, that each human has to make daily is his/her "meal choice". The said decision depends on a multitude of factors like nutritional requirements, eating prefrences and mood etc. Thus, meal choice presents a lot of variability not only in between two different indviduals but also for the same indvidual.
 
