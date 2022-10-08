@@ -3,7 +3,7 @@ This repository contains source code for ML-7641 Fall-22 Project
 
 
 ## Background
-Machine Learning systems today aid decision making across the entrire spectrum of life. One of such relevant decision, that each human has to make daily is his/her Meal Choice. The said decision depends on a multitude of factors like nutritional requirements, eating prefrences and mood etc. Thus Meal Choice presents lot of variability not only in between two different indviduals but also for the same indvidual.
+Machine Learning systems today aid decision making across the entrire spectrum of life. One of such relevant decision, that each human has to make daily is his/her "meal choice". The said decision depends on a multitude of factors like nutritional requirements, eating prefrences and mood etc. Thus, meal choice presents a lot of variability not only in between two different indviduals but also for the same indvidual.
 
 In this project we thus aim to build a ML system, that aids multiple aspects of Meal Choice decision.
 
@@ -13,7 +13,7 @@ We want to tackle two main problems here:
 1. **Given an image of a food item, what are the key ingredients in the food?**
 
 2. **Given my previous interaction with food items, can you recommend me similar foods?**
-    * Can the reccomendation also account for additional constraints from user like nutritional requirements etc?
+    * Can the recommendation also account for additional constraints from user like nutritional requirements etc?
 
 
 ### Usecases
@@ -57,9 +57,9 @@ We will be training the Food-101 dataset using pre-trained CNN architectures lik
 
 ### Reccomendation System Module
 
-We will use the user-food interaction data which contains the temporal food-item ratings given by users to provide recommendations for similar food items leveraging the user-user collaborative filtering and matrix factorization techniques.
+We will use the user-food interaction data which contains the temporal food-item ratings given by users to provide recommendations for similar food items leveraging the user-user collaborative filtering and matrix factorization techniques.\n
 
-![Collabartive Filtering](./images/collaborative_filtering.png)
+![Collabartive Filtering]:(./images/collaborative_filtering.png?raw=true)
 
 The matrix factorization method will use the concept of Truncated Singular Value Decomposition to obtain highly predictive latent features sparse ratings matrix and provide a fair approximation of predictions of new items ratings.
 
