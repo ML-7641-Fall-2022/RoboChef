@@ -69,7 +69,7 @@ The matrix factorization method will use the concept of Truncated Singular Value
 ## Results & Discussion
 
 - In recommendation systems , we have to not only ensure greater accuracy on ratings prediction but also have the most relevant items at the top of the recommendation list i.e. ranking of the recommendations.
-  - Evalution metrics to be used : MAP@k(Mean Average Precision at K) and NDCG (Normalized Discounted Cummulative Gain)
+  - Evalution metrics to be used : MAP@k (Mean Average Precision at K) and NDCG (Normalized Discounted Cummulative Gain)
 
 
 ## References
