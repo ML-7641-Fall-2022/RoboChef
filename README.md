@@ -1,7 +1,7 @@
 # RoboChef
 
 ## Background
-Machine Learning systems today aid decision making across the entire spectrum of life. One of such relevant decision, that each human has to make daily is his/her "meal choice". The said decision depends on a multitude of factors like nutritional requirements, eating prefrences and mood etc. Thus, meal choice presents a lot of variability not only in between two different indviduals but also for the same indvidual.
+Machine Learning systems today aid decision making across the entire spectrum of life. One such decision, that each human has to make daily is his/her "meal choice". The said decision depends on a multitude of factors like nutritional requirements, eating preferences and mood etc. Thus, meal choice presents a lot of variability not only in between two different indviduals but also for the same indvidual.
 
 In this project we thus aim to build a ML system, that aids multiple aspects of Meal Choice decision.
 
@@ -91,7 +91,7 @@ Al-Selwi, Metwalli & Shen, Wei & Wu, Chase. (2020). Food Image Recognition Based
 |:-------:|:---------------------------------------:|:--------------------------------:|
 |    1    |         Classification with CNN         |      Manoj + Anshit + Abhinav    |
 |    2    | Querring Label with Ingredient Database |      Yibei + Ashish              |
-|    3    |          Reccomendation System          | Abhinav + Ashish + Yibei.        |
+|    3    |          Recommendation System          |     Abhinav + Ashish + Yibei     |
 |    4    |                Deployment               |          Anshit                  |
 
 *Subject to alterations*
