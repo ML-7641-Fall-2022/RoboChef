@@ -58,7 +58,8 @@ We will be training the Food-101 dataset using pre-trained CNN architectures lik
 ### Reccomendation System Module
 
 We will use the user-food interaction data which contains the temporal food-item ratings given by users to provide recommendations for similar food items leveraging the user-user collaborative filtering and matrix factorization techniques.
-![Collabartive Filtering]:(./images/collaborative_filtering.png)
+![Collabartive Filtering]:(./images/collaborative_filtering.png?raw=true)
+
 The matrix factorization method will use the concept of Truncated Singular Value Decomposition to obtain highly predictive latent features sparse ratings matrix and provide a fair approximation of predictions of new items ratings.
 
 ### Points for further exploration
