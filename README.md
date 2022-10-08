@@ -32,7 +32,7 @@ We divide our project pipeline into three main stages:
 
 2. **Food to Ingredient Mapping**: Output 1 from CNN is then queried through a database housing the mapping between food items and their respective ingredients, to yeild **Output 2**. This can again either be used independtly or overlaid over recommendation system as a filter.
 
-3. **Reccomendation System**: In this stage we reccommend the user additional food items: **Output 3** basis his (&other individuals) interactions. We also allow for the user to place additional constraints over the recommendations.
+3. **Recommendation System**: In this stage we reccommend the user additional food items: **Output 3** basis his (&other individuals) interactions. We also allow for the user to place additional constraints over the recommendations.
 
 The schematic of these stages is given below:
 ![Getting Started](./images/ml_project_pipeline.jpg)
