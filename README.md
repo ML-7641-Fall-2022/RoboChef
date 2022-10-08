@@ -8,7 +8,7 @@ In this project, we thus aim to build a ML system that aids multiple aspects of 
 ## Problem Definition
 We want to tackle two main problems here:
 
-1. **Given an image of a food item, what are the key ingredients in the food?**
+1. **Given an image of a food item, what are the key ingredients that goes in creating the food items?**
 
 2. **What food items should we recommend to a user based on his preferences and other similar users' food choices?**
     * Can the recommendation also account for additional constraints from user like nutritional requirements, calories level, etc?
