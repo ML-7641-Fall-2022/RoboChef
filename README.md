@@ -98,3 +98,5 @@ Al-Selwi, Metwalli & Shen, Wei & Wu, Chase. (2020). Food Image Recognition Based
 
 *Subject to alterations*
 ### GANTT Chart
+
+[GANTT Chart](https://gtvault-my.sharepoint.com/:x:/g/personal/averma373_gatech_edu/EVhkpnexSZlFo1E8W2ZUiFkBdDpVgO8g5v7mOKs5ekzM0Q?e=DuKFx6)
