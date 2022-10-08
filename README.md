@@ -70,8 +70,8 @@ We will use the user-food interaction data which contains the temporal food-item
 
 The matrix factorization method will use the concept of Truncated Singular Value Decomposition to obtain highly predictive latent features using the sparse ratings matrix and provide a fair approximation of predictions of new items ratings.
 
-- In recommendation systems , we have to not only ensure greater accuracy on ratings prediction but also have the most relevant items at the top of the recommendation list i.e. ranking of the recommendations.
-  - Evalution metrics to be used : **MAP@k** (Mean Average Precision at K) and **NDCG** (Normalized Discounted Cummulative Gain)
+In recommendation systems , we have to not only ensure greater accuracy on ratings prediction but also have the most relevant items at the top of the recommendation list i.e. ranking of the recommendations.
+- Evalution metrics to be used : **MAP@k** (Mean Average Precision at K) and **NDCG** (Normalized Discounted Cummulative Gain)
 
 ### Points for further exploration
 
