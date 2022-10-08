@@ -13,7 +13,7 @@ We want to tackle two main problems here:
 1. **Given an image of a food item, what are the key ingredients in the food?**
 
 2. **Given my previous interaction with food items, can you recommend me similar foods?**
-    * Can the reccomendation also account for additional constraints from user like nutritional requirements etc?
+    * Can the recommendation also account for additional constraints from user like nutritional requirements etc?
 
 
 ### Usecases
