@@ -89,7 +89,7 @@ https://www.kaggle.com/datasets/shuyangli94/food-com-recipes-and-user-interactio
 | Sr. No. |            Stage Description            |       Contributors               |
 |:-------:|:---------------------------------------:|:--------------------------------:|
 |    1    |         Classification with CNN         |      Manoj + Anshit + Abhinav    |
-|    2    | Querring Label with Ingredient Database |      Yibei + Ashish              |
+|    2    | Querying Label with Ingredient Database |      Yibei + Ashish              |
 |    3    |          Recommendation System          |     Abhinav + Ashish + Yibei     |
 |    4    |                Deployment               |          Anshit                  |
 
