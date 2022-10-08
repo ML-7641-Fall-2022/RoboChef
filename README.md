@@ -51,12 +51,23 @@ In this part, we’re using data from the Food.com Recipes and Interactions, whi
 
 We will join user interactions dataset and recipe dataset based on recipe_id. With the joined data, we’ll use our recommendation system to study user preferences and recommend recipes to users based on their previous behaviors, and optionally input from the ingredient we get from the classification task.
 
-## Results & Discussion
 
 ### CNN Module
 We will be training the Food-101 dataset using pre-trained CNN architectures like DenseNets and ResNets to classify the image into one of the 101 categories. To evaluate the model performance, we will be using **top-1** and **top-5** classification accuracy on the predictions.
 
 ### Reccomendation System Module
+
+We will use the user-food interaction data which contains the temporal food-item ratings given by users to provide recommendations for similar food items leveraging the user-user collaborative filtering and matrix factorization techniques.
+The matrix factorization method will use the concept of Truncated Singular Value Decomposition to obtain highly predictive latent features sparse ratings matrix and provide a fair approximation of predictions of new items ratings.
+
+### Points for further exploration
+
+- Applications of autoencoders to learn underlying feature representation and provide a more personalized recommendation.
+
+## Results & Discussion
+
+- In recommendation systems , we have to not only ensure greater accuracy on ratings prediction but also have the most relevant items at the top of the recommendation list i.e. ranking of the recommendations.
+  - Evalution metrics to be used : MAP@k(Mean Average Precision at K) and NDCG (Normalized Discounted Cummulative Gain)
 
 ## Conclusion
 
