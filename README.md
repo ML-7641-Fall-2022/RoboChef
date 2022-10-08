@@ -61,7 +61,7 @@ We will be using Food-101 dataset for the CNN classification which consists of 1
 ### CNN System Module
 
 We will be training the Food-101 dataset using pre-trained CNN architectures like DenseNets and ResNets to classify the image into one of the 101 categories. 
-- To evaluate the model performance, we will be using **top-1** and **top-5** classification accuracy on the predictions.
+- Evaluation metrics to be used: **top-1** and **top-5** classification accuracy on the predictions.
 
 ### Recommendation System Module
 
