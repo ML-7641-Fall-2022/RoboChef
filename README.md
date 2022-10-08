@@ -75,7 +75,8 @@ The matrix factorization method will use the concept of Truncated Singular Value
 ## References
 
 <a id="Trang">[1]</a> 
-Trang Tran, T.N., Atas, M., Felfernig, A. et al. An overview of recommender systems in the healthy food domain. J Intell Inf Syst 50, 501–526 (2018)\ https://doi.org/10.1007/s10844-017-0469-0
+Trang Tran, T.N., Atas, M., Felfernig, A. et al. An overview of recommender systems in the healthy food domain. J Intell Inf Syst 50, 501–526 (2018)\
+https://doi.org/10.1007/s10844-017-0469-0
 
 <a id="2">[2]</a>
 Kaggle Data set for User food Interactions\
