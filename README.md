@@ -55,9 +55,12 @@ We will join user interactions dataset and recipe dataset based on recipe_id. Wi
 
 We will be using Food-101 dataset for the CNN classification which consists of 101 food categories with a total of 101,000 images. 
 
+
+## Results & Discussion
+
+### CNN System Module
+
 We will be training the Food-101 dataset using pre-trained CNN architectures like DenseNets and ResNets to classify the image into one of the 101 categories. To evaluate the model performance, we will be using **top-1** and **top-5** classification accuracy on the predictions.
-
-
 
 ### Recommendation System Module
 
@@ -67,16 +70,13 @@ We will use the user-food interaction data which contains the temporal food-item
 
 The matrix factorization method will use the concept of Truncated Singular Value Decomposition to obtain highly predictive latent features using the sparse ratings matrix and provide a fair approximation of predictions of new items ratings.
 
+- In recommendation systems , we have to not only ensure greater accuracy on ratings prediction but also have the most relevant items at the top of the recommendation list i.e. ranking of the recommendations.
+  - Evalution metrics to be used : **MAP@k** (Mean Average Precision at K) and **NDCG** (Normalized Discounted Cummulative Gain)
+
 ### Points for further exploration
 
 - Applications of autoencoders to learn underlying feature representation and provide a more personalized recommendation.
 - Added functionality to recommend the food items that can be prepared using the ingredients image a user has uploaded.
-
-## Results & Discussion
-
-- In recommendation systems , we have to not only ensure greater accuracy on ratings prediction but also have the most relevant items at the top of the recommendation list i.e. ranking of the recommendations.
-  - Evalution metrics to be used : MAP@k (Mean Average Precision at K) and NDCG (Normalized Discounted Cummulative Gain)
-
 
 ## References
 
