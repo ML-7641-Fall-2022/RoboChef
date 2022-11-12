@@ -96,6 +96,10 @@ A. -S. Metwalli, W. Shen and C. Q. Wu, "Food Image Recognition Based on Densely 
 Food 101 DataSet\
 [https://www.kaggle.com/datasets/dansbecker/food-101](https://www.kaggle.com/datasets/dansbecker/food-101)
 
+<a id="5">[5]</a>
+Netflix Competition 2006
+[https://sifter.org/~simon/journal/20061211.html](https://sifter.org/~simon/journal/20061211.html)
+
 ## Project Logistics
 ### Contribution table
 
