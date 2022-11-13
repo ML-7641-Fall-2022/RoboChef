@@ -170,6 +170,7 @@ The distribution of few features in metadata is given below:
 | max   | 2.147484e+09 | 145.000000    | 43.000000     |
 
 The n_ingredient data is skew to the right, however, the mode of n_ingredients is also around 9 and 10.
+
 ![n_ingredient](./images/Ingredient_number_hist.png?raw=true)
 
 
@@ -182,6 +183,7 @@ The correlation between few important metadata features are given below:
 | n_ingredients | -0.000592 | 0.427706  | 1.000000      |
 
 Also the minutes column has a lot of very high noisey values, so we have capped the variable to 48*60 or (48 hrs * 60 minutes).
+
 #### Hypothesis Testing
 The metadata above lends to few intuitive hypotheses, like are more complex dishes rated lower? We have performed Hypothesis testing for this, and this helps us to tune our models.
 
