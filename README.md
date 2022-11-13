@@ -145,10 +145,49 @@ _The ratings follow a heavy skew, with 4 and 5 being the predominant rating_
 
 
 #### Modelling
+
+```python
+TRAIN__Validation_SIZE = 0.8
+TEST_SIZE = 0.2
+```
+
 We have tried two approaches for recommendation system:
 ##### 1. Collaborative Filtering
 ##### 2. Matrix Factorisation
 The matrix factorization method will use the concept of Singular Value Decomposition to obtain highly predictive latent features using the sparse ratings matrix and provide a fair approximation of predictions of new items ratings.
+We use SVD from the surprise library, which implements a biased matrix factorisation as:
+
+$$
+R ~ Q*P + Bias(user,item)
+\text{here Bias term is dependent on the average rating of user and item}
+$$
+
+The key hyper parameter in the Matrix Factorisation approach is the k or the number of latent features to use for the matrix decomposition. We use a Grid Search CV (with 5 folds) to arrive at the best value.
+```python
+param_grid = {"n_factors":[20, 50] ,"n_epochs": [10, 15], "lr_all": [0.002, 0.005]}
+gs = GridSearchCV(SVD, param_grid, measures=["rmse", "mae"], cv=5, n_jobs = -2)
+
+gs.fit(cv_data)
+
+# best RMSE score
+print(gs.best_score["rmse"])
+#1.218094140876164
+
+# combination of parameters that gave the best RMSE score
+print(gs.best_params["rmse"])
+#{'n_factors': 20, 'n_epochs': 15, 'lr_all': 0.005}
+
+print(gs.best_params["mae"])
+#{'n_factors': 20, 'n_epochs': 15, 'lr_all': 0.005}
+```
+
+For the above choice of hyperparameters our Test RMSE is:
+```python
+predictions = algo.test(test_set_surprise)
+accuracy.rmse(predictions, verbose=True)
+#RMSE: 1.2117
+```
+
 ###### Analysis of latent features
 
 
