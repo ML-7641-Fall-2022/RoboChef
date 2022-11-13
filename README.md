@@ -1,4 +1,6 @@
 # RoboChef
+ [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
+[![DVC](https://img.shields.io/badge/-Data_Version_Control-white.svg?logo=data-version-control&style=social)](https://dvc.org/?utm_campaign=badge)
 
 [comment]: <> (TODO)
 <!-- TABLE OF CONTENTS -->
@@ -7,8 +9,8 @@
 <details open="open">
   <summary>Table of Contents</summary>
   <ol>
-    <li><a href="#about-the-project"> ➤ About The Project</a></li>
-    <li><a href="#prerequisites"> ➤ Prerequisites</a></li>
+    <li><a href="Background"> ➤ Background</a></li>
+    <li><a href="#Problem Definition"> ➤ Problem Definition</a></li>
     <li><a href="#folder-structure"> ➤ Project Organsisation</a></li>
     <li><a href="#dataset"> ➤ Dataset</a></li>
     <li><a href="#roadmap"> ➤ Roadmap</a></li>
@@ -16,12 +18,18 @@
   </ol>
 </details>
 
-## Background
+
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
+
+<!-- Background -->
+<h2 id="Background"> Background</h2>
 Machine Learning systems today aid decision making across the entire spectrum of life. One such decision, that each human has to make daily is his/her "meal choice" . The said decision depends on a multitude of factors like nutritional requirements, eating preferences and mood etc.
 
 In this project, we thus aim to build an ML system that aids multiple aspects of Meal Choice decision using Image Recognition and Recommender Systems.
 
-## Problem Definition
+<!-- Problem Definition -->
+<h2 id="Problem Definition"> Problem Definition</h2>
+
 We want to tackle two main problems here:
 
 1. **Given an image of a food item, what are the key ingredients that goes in preparing the food item ?**
@@ -29,6 +37,7 @@ We want to tackle two main problems here:
 2. **What food items should we recommend to a user based on his preferences and other similar users food choices?**
    - Can the recommendation also account for additional constraints from user like nutritional requirements, calories level, etc?
 
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 ### Usecases
 The modular nature of above problems lends itself to multiple usecases:
@@ -40,8 +49,10 @@ The modular nature of above problems lends itself to multiple usecases:
     - Restrict recommendations to ingredients he already has
     - Constrain by the nutritional requirements of the dish, say the user wants only "low calorie" dishes.
 
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
-## Project Pipeline
+<!-- Project Pipeline -->
+<h2 id="Project Pipeline"> Project Pipeline</h2>
 We divide our project pipeline into three main stages:
 
 1. **Classfication System**: This stage would take as input food images and passes them through a CNN to output food labels. The output of this stage is (**Output 1**), and flows to next stage, but can also be used independently.
