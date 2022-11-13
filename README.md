@@ -1,5 +1,21 @@
 # RoboChef
 
+[comment]: <> (TODO)
+<!-- TABLE OF CONTENTS -->
+<h2 id="table-of-contents"> Table of Contents</h2>
+
+<details open="open">
+  <summary>Table of Contents</summary>
+  <ol>
+    <li><a href="#about-the-project"> ➤ About The Project</a></li>
+    <li><a href="#prerequisites"> ➤ Prerequisites</a></li>
+    <li><a href="#folder-structure"> ➤ Project Organsisation</a></li>
+    <li><a href="#dataset"> ➤ Dataset</a></li>
+    <li><a href="#roadmap"> ➤ Roadmap</a></li>
+    <li><a href="#contributors"> ➤ Contributors</a></li>
+  </ol>
+</details>
+
 ## Background
 Machine Learning systems today aid decision making across the entire spectrum of life. One such decision, that each human has to make daily is his/her "meal choice" . The said decision depends on a multitude of factors like nutritional requirements, eating preferences and mood etc.
 
@@ -25,7 +41,7 @@ The modular nature of above problems lends itself to multiple usecases:
     - Constrain by the nutritional requirements of the dish, say the user wants only "low calorie" dishes.
 
 
-## Methodology
+## Project Pipeline
 We divide our project pipeline into three main stages:
 
 1. **Classfication System**: This stage would take as input food images and passes them through a CNN to output food labels. The output of this stage is (**Output 1**), and flows to next stage, but can also be used independently.
@@ -36,7 +52,6 @@ We divide our project pipeline into three main stages:
 
 The schematic of these stages is given below:
 ![Getting Started](./images/ml_project_pipeline.jpg)
-
 
 
 ## Data Collection
@@ -56,6 +71,41 @@ We will join user interactions dataset and recipe dataset based on recipe_id. Wi
 
 
 ## Results & Discussion
+As defined in the pipeline above, there are three main modules of our ML system, and this section details the exect semantics of the work on each of the items.
+
+### CNN System Module
+### Food Label to Ingredient Mapping
+### Recommendation System Module
+We will use the user-food interaction data which contains the temporal food-item ratings given by users to provide recommendations for similar food items leveraging the user-user collaborative filtering and matrix factorization techniques.
+
+![Collabartive Filtering](./images/collaborative_filtering.png?raw=true)
+
+#### Exploratory Data Analysis
+##### User Recipe Interaction Data
+The user interaction recipe data has 5 columns, with head of the table given below:
+
+```bash
+Index(['user_id', 'recipe_id', 'date', 'rating', 'review'], dtype='object')
+```
+| user_id | recipe_id |       date | rating |                                            review |
+|--------:|----------:|-----------:|-------:|--------------------------------------------------:|
+|   38094 |     40893 | 2003-02-17 |      4 | Great with a salad. Cooked on top of stove for... |
+| 1293707 |     40893 | 2011-12-21 |      5 | So simple, so delicious! Great for chilly fall... |
+|    8937 |     44394 | 2002-12-01 |      4 |  This worked very well and is EASY. I used not... |
+|  126440 |     85009 | 2010-02-27 |      5 | I made the Mexican topping and took it to bunk... |
+|   57222 |     85009 | 2011-10-01 |      5 | Made the cheddar bacon topping, adding a sprin... |
+
+The number of unique users and unique recipes is given as:
+```bash
+Index(['user_id', 'recipe_id', 'date', 'rating', 'review'], dtype='object')
+```
+
+
+
+The matrix factorization method will use the concept of Truncated Singular Value Decomposition to obtain highly predictive latent features using the sparse ratings matrix and provide a fair approximation of predictions of new items ratings.
+
+
+## Results & Discussion (old)
 
 ### CNN System Module
 
@@ -95,6 +145,14 @@ A. -S. Metwalli, W. Shen and C. Q. Wu, "Food Image Recognition Based on Densely 
 <a id="4">[4]</a>
 Food 101 DataSet\
 [https://www.kaggle.com/datasets/dansbecker/food-101](https://www.kaggle.com/datasets/dansbecker/food-101)
+
+<a id="5">[5]</a>
+Netflix Movie Reccomedation Competition 2006
+[https://sifter.org/~simon/journal/20061211.html](https://sifter.org/~simon/journal/20061211.html)
+
+<a id="6">[6]</a>
+Surprise: A Python library for recommender systems, 2020
+[https://doi.org/10.21105/joss.02174](https://doi.org/10.21105/joss.02174)
 
 ## Project Logistics
 ### Contribution table
