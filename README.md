@@ -96,13 +96,13 @@ Index(['user_id', 'recipe_id', 'date', 'rating', 'review'], dtype='object')
 |   57222 |     85009 | 2011-10-01 |      5 | Made the cheddar bacon topping, adding a sprin... |
 
 The number of unique users and unique recipes is given as:
-```bash
+```
 user_id         226570
 recipe_id       231637
 user_recipe    1132367
 ```
 
-<span style="color:red">As expected not every user rates every recipe, which is apparent from the counts above. An estimate of the sparsity of interaction matrix is:</span>
+As expected not every user rates every recipe, which is apparent from the counts above. An estimate of the sparsity of interaction matrix is:
 ```python
 sparsity = 1- (1132367/(N_users*N_Recipes))
 print (f"Sparsity in data {sparsity:.9%}")
@@ -119,7 +119,7 @@ user_grp[[("recipe_id","count")]].quantile([0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,
 |----------------:|----:|----:|----:|----:|----:|----:|----:|----:|----:|-------:|
 | recipe_id,count | 1.0 | 1.0 | 1.0 | 1.0 | 1.0 | 1.0 | 1.0 | 2.0 | 5.0 | 7671.0 |
 
-<span style="color:red">Thus almost 90% of the users rate <=5 recipes, to create a heavy left tail skew.</span>
+_Thus almost 90% of the users rate <=5 recipes, to create a heavy left tail skew._
 
 1b. How many users rate the same recipes ?
 The converse of the above distribution is the distribution of users rating the same recipe.
@@ -130,7 +130,7 @@ recipe_grp[[("user_id","count")]].quantile([0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,
 |---------------|-----|-----|-----|-----|-----|-----|-----|-----|-----|--------|
 | user_id,count | 1.0 | 1.0 | 1.0 | 2.0 | 2.0 | 3.0 | 3.0 | 5.0 | 9.0 | 1613.0 |
 
-<span style="color:red">Similar to above we see a highly skewed distribution, with 80% of the recipes being rated by <=5 users</span>
+_Similar to above we see a highly skewed distribution, with 80% of the recipes being rated by <=5 users_
 
 2. Distribution of Ratings?
 ```python
@@ -138,7 +138,7 @@ raw_interactions["rating"].hist()
 ```
 ![Ratings Histogram](./images/rating_histogram.png?raw=true)
 
-<span style="color:red">The ratings follow a heavy skew, with 4 and 5 being the predominant rating</span>
+_The ratings follow a heavy skew, with 4 and 5 being the predominant rating_
 
 
 #### Modelling
@@ -165,7 +165,7 @@ We will use the user-food interaction data which contains the temporal food-item
 The matrix factorization method will use the concept of Truncated Singular Value Decomposition to obtain highly predictive latent features using the sparse ratings matrix and provide a fair approximation of predictions of new items ratings.
 
 In recommendation systems , we have to not only ensure greater accuracy on ratings prediction but also have the most relevant items at the top of the recommendation list i.e. ranking of the recommendations.
-- Evalution metrics to be used : **MAP@k** (Mean Average Precision at K) and **NDCG** (Normalized Discounted Cummulative Gain)
+- Evaluation metrics to be used : **MAP@k** (Mean Average Precision at K) and **NDCG** (Normalized Discounted Cummulative Gain)
 
 ### Points for further exploration
 
