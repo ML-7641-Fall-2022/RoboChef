@@ -158,7 +158,8 @@ The matrix factorization method will use the concept of Singular Value Decomposi
 We use SVD from the surprise library, which implements a biased matrix factorisation as:
 
 $$
-R ~ Q*P + Bias(user,item)
+R \sim Q*P + Bias(user,item)
+
 \text{here Bias term is dependent on the average rating of user and item}
 $$
 
