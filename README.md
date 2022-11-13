@@ -12,9 +12,10 @@
     <li><a href="#Background"> ➤ Background</a></li>
     <li><a href="#Problem Definition"> ➤ Problem Definition</a></li>
     <li><a href="#Project Pipeline"> ➤ Project Pipeline</a></li>
-    <li><a href="#dataset"> ➤ Dataset</a></li>
-    <li><a href="#roadmap"> ➤ Roadmap</a></li>
-    <li><a href="#contributors"> ➤ Contributors</a></li>
+    <li><a href="Data Collection"> ➤ Data Collection</a></li>
+    <li><a href="Results & Discussion"> ➤ Results & Discussion</a></li>
+    <li><a href="References"> ➤ References</a></li>
+    <li><a href="Project Logistics"> ➤ Project Logistics</a></li>
   </ol>
 </details>
 
@@ -37,8 +38,7 @@ We want to tackle two main problems here:
 
 2. **What food items should we recommend to a user based on his preferences and other similar users food choices?**
    - Can the recommendation also account for additional constraints from user like nutritional requirements, calories level, etc?
-
-![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
+    
 
 ### Usecases
 The modular nature of above problems lends itself to multiple usecases:
@@ -66,7 +66,9 @@ The schematic of these stages is given below:
 ![Getting Started](./images/ml_project_pipeline.jpg)
 
 
-## Data Collection
+<!-- Data Collection -->
+<h2 id="Data Collection"> Data Collection</h2>
+
 ### Data for CNN Module
 [Dataset Source](https://www.kaggle.com/datasets/dansbecker/food-101)
 
@@ -82,7 +84,9 @@ In this part, we’re using data from the Food.com Recipes and Interactions, whi
 We will join user interactions dataset and recipe dataset based on recipe_id. With the joined data, we’ll use our recommendation system to study user preferences and recommend recipes to users based on their previous behaviors, and optionally input from the ingredient we get from the classification task.
 
 
-## Results & Discussion
+<!-- Results & Discussion -->
+<h2 id="Results & Discussion"> Results & Discussion</h2>
+
 As defined in the pipeline above, there are three main modules of our ML system, and this section details the exect semantics of the work on each of the items.
 
 ### CNN System Module
@@ -390,30 +394,35 @@ We have tried to check the correlation of the 20 latent features, with recipe me
 In the next iteration, we hope to derive embeddings from description and ingredients from the recipe metadata, and do a similar analysis.
 
 
-## Results & Discussion (old)
+[comment]: <> (## Results & Discussion &#40;old&#41;)
 
-### CNN System Module
+[comment]: <> (### CNN System Module)
 
-We will be training the Food-101 dataset using pre-trained CNN architectures like DenseNets and ResNets to classify the image into one of the 101 categories. 
-- Evaluation metrics to be used: **top-1** and **top-5** classification accuracy on the predictions.
+[comment]: <> (We will be training the Food-101 dataset using pre-trained CNN architectures like DenseNets and ResNets to classify the image into one of the 101 categories. )
 
-### Recommendation System Module
+[comment]: <> (- Evaluation metrics to be used: **top-1** and **top-5** classification accuracy on the predictions.)
 
-We will use the user-food interaction data which contains the temporal food-item ratings given by users to provide recommendations for similar food items leveraging the user-user collaborative filtering and matrix factorization techniques.
+[comment]: <> (### Recommendation System Module)
 
-![Collabartive Filtering](./images/collaborative_filtering.png?raw=true)
+[comment]: <> (We will use the user-food interaction data which contains the temporal food-item ratings given by users to provide recommendations for similar food items leveraging the user-user collaborative filtering and matrix factorization techniques.)
 
-The matrix factorization method will use the concept of Truncated Singular Value Decomposition to obtain highly predictive latent features using the sparse ratings matrix and provide a fair approximation of predictions of new items ratings.
+[comment]: <> (![Collabartive Filtering]&#40;./images/collaborative_filtering.png?raw=true&#41;)
 
-In recommendation systems , we have to not only ensure greater accuracy on ratings prediction but also have the most relevant items at the top of the recommendation list i.e. ranking of the recommendations.
-- Evalution metrics to be used : **MAP@k** (Mean Average Precision at K) and **NDCG** (Normalized Discounted Cummulative Gain)
+[comment]: <> (The matrix factorization method will use the concept of Truncated Singular Value Decomposition to obtain highly predictive latent features using the sparse ratings matrix and provide a fair approximation of predictions of new items ratings.)
+
+[comment]: <> (In recommendation systems , we have to not only ensure greater accuracy on ratings prediction but also have the most relevant items at the top of the recommendation list i.e. ranking of the recommendations.)
+
+[comment]: <> (- Evalution metrics to be used : **MAP@k** &#40;Mean Average Precision at K&#41; and **NDCG** &#40;Normalized Discounted Cummulative Gain&#41;)
 
 ### Points for further exploration
 
 - Applications of autoencoders to learn underlying feature representation and provide a more personalized recommendation.
 - Added functionality to recommend the food items that can be prepared using the ingredients image a user has uploaded.
 
-## References
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
+
+<!-- References -->
+<h2 id="References"> References</h2>
 
 <a id="Trang">[1]</a> 
 Trang Tran, T.N., Atas, M., Felfernig, A. et al. An overview of recommender systems in the healthy food domain. J Intell Inf Syst 50, 501–526 (2018)\
@@ -439,7 +448,12 @@ Netflix Movie Reccomedation Competition 2006
 Surprise: A Python library for recommender systems, 2020
 [https://doi.org/10.21105/joss.02174](https://doi.org/10.21105/joss.02174)
 
-## Project Logistics
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
+
+
+<!-- Project Logistics -->
+<h2 id="Project Logistics"> Project Logistics</h2>
+
 ### Contribution table
 
 | Sr. No. |            Stage Description            |       Contributors               |
