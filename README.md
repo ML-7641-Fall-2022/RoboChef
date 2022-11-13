@@ -100,6 +100,36 @@ The number of unique users and unique recipes is given as:
 Index(['user_id', 'recipe_id', 'date', 'rating', 'review'], dtype='object')
 ```
 
+##### Recipe Data
+The recipe data has 12 columns and 231636 rows, which gives us 231636 unique recipes with 12 features.
+```bash
+Index(['name', 'id', 'minutes', 'contributor_id', 'submitted', 'tags',
+       'nutrition', 'n_steps', 'steps', 'description', 'ingredients',
+       'n_ingredients'],
+      dtype='object')
+```
+Among the 231636 datapoints, there is only one data point that is a missing value. The data point doesn't have attribute name. Therefore, we delete this datapoint.
+
+After analyzing the quantitative data, we found that the mean steps of cooking is around 9.5 steps; mean cooking time is about 9 mins, and mean number of ingredient is around 9. Also, there is positive relations between steps and ingredients.
+
+|               | minutes   | n_steps   | n_ingredients |
+|---------------|-----------|-----------|---------------|
+| minutes       | 1.000000  | -0.000257 | -0.000592     |
+| n_steps       | -0.000257 | 1.000000  | 0.427706      |
+| n_ingredients | -0.000592 | 0.427706  | 1.000000      |
+
+|       | minutes      | n_steps       | n_ingredients |
+|-------|--------------|---------------|---------------|
+| count | 2.316360e+05 | 231636.000000 | 231636.000000 |
+| mean  | 9.398587e+03 | 9.765516      | 9.051149      |
+| std   | 4.461973e+06 | 5.995136      | 3.734803      |
+| min   | 0.000000e+00 | 0.000000      | 1.000000      |
+| 25%   | 2.000000e+01 | 6.000000      | 6.000000      |
+| 50%   | 4.000000e+01 | 9.000000      | 9.000000      |
+| 75%   | 6.500000e+01 | 12.000000     | 11.000000     |
+| max   | 2.147484e+09 | 145.000000    | 43.000000     |
+The n_ingredient data is skew to the right, however, the mode of n_ingredients is also around 9 and 10.
+![n_ingredient](./images/Ingredient_number_hist.png?raw=true)
 
 
 The matrix factorization method will use the concept of Truncated Singular Value Decomposition to obtain highly predictive latent features using the sparse ratings matrix and provide a fair approximation of predictions of new items ratings.
