@@ -143,23 +143,20 @@ raw_interactions["rating"].hist()
 _The ratings follow a heavy skew, with 4 and 5 being the predominant rating_
 
 
-##### Recipe Data
+##### Recipe Metadata
 The recipe data has 12 columns and 231636 rows, which gives us 231636 unique recipes with 12 features.
+
 ```bash
 Index(['name', 'id', 'minutes', 'contributor_id', 'submitted', 'tags',
        'nutrition', 'n_steps', 'steps', 'description', 'ingredients',
        'n_ingredients'],
       dtype='object')
 ```
-Among the 231636 datapoints, there is only one data point that is a missing value. The data point doesn't have attribute name. Therefore, we delete this datapoint.
+Among the 231636 recipes, there is only one data point that is a missing value. The data point doesn't have attribute name. Therefore, we delete this datapoint.
 
 After analyzing the quantitative data, we found that the mean steps of cooking is around 9.5 steps; mean cooking time is about 9 mins, and mean number of ingredient is around 9. Also, there is positive relations between steps and ingredients.
 
-|               | minutes   | n_steps   | n_ingredients |
-|---------------|-----------|-----------|---------------|
-| minutes       | 1.000000  | -0.000257 | -0.000592     |
-| n_steps       | -0.000257 | 1.000000  | 0.427706      |
-| n_ingredients | -0.000592 | 0.427706  | 1.000000      |
+The distribution of few features in metadata is given below:
 
 |       | minutes      | n_steps       | n_ingredients |
 |-------|--------------|---------------|---------------|
@@ -171,8 +168,150 @@ After analyzing the quantitative data, we found that the mean steps of cooking i
 | 50%   | 4.000000e+01 | 9.000000      | 9.000000      |
 | 75%   | 6.500000e+01 | 12.000000     | 11.000000     |
 | max   | 2.147484e+09 | 145.000000    | 43.000000     |
+
 The n_ingredient data is skew to the right, however, the mode of n_ingredients is also around 9 and 10.
 ![n_ingredient](./images/Ingredient_number_hist.png?raw=true)
+
+
+The correlation between few important metadata features are given below:
+
+|               | minutes   | n_steps   | n_ingredients |
+|---------------|-----------|-----------|---------------|
+| minutes       | 1.000000  | -0.000257 | -0.000592     |
+| n_steps       | -0.000257 | 1.000000  | 0.427706      |
+| n_ingredients | -0.000592 | 0.427706  | 1.000000      |
+
+Also the minutes column has a lot of very high noisey values, so we have capped the variable to 48*60 or (48 hrs * 60 minutes).
+#### Hypothesis Testing
+The metadata above lends to few intuitive hypotheses, like are more complex dishes rated lower? We have performed Hypothesis testing for this, and this helps us to tune our models.
+
+Effect of Minutes required to cook on the rating of the dish
+We have bucketed the cleaned minutes variable into meaningful buckets, which is then used to analyse the effect on other variables.
+
+| minutes_buckets | n_ingredients | n_steps   | rating   |
+|-----------------|---------------|-----------|----------|
+| a.<=15          | 6.503086      | 5.737489  | 4.469096 |
+| b.<=30          | 8.597985      | 8.877021  | 4.427940 |
+| c.<=60          | 9.607273      | 10.610071 | 4.405543 |
+| d.<=240         | 10.337944     | 12.156324 | 4.383287 |
+| e.>240          | 9.147623      | 9.792240  | 4.310574 |
+
+As expected, with increasing number of buckets, the average rating decreases, while number of steps and number of ingredients increase.
+*There might be a intrinsic bias in this trend, as people investing more time in the cooking, might generally have a higher standard set for rating too.*
+
+![minutes_bucket_hist](./images/minutes_bucket_hist.png?raw=true)
+
+We have also performed Pair wise ANOVA (Tukey) test to ascertain the same.
+
+```python
+from statsmodels.stats.multicomp import pairwise_tukeyhsd
+def ad_tukey(grp="",reponse=""): 
+    tukey = pairwise_tukeyhsd(endog=joined_df[response],
+                          groups=joined_df[grp],alpha=0.01)
+    print (tukey)
+
+# perform Tukey's test
+grp = "minutes_buckets"
+for response in ["rating","n_ingredients", "n_steps"]:
+    print (f"Group Variable: {grp}, Response Variable: {response}")
+    ad_tukey(grp,response)
+    print()
+```
+
+```bash
+Group Variable: minutes_buckets, Response Variable: rating
+ Multiple Comparison of Means - Tukey HSD, FWER=0.01 
+=====================================================
+ group1  group2 meandiff p-adj  lower   upper  reject
+-----------------------------------------------------
+ a.<=15  b.<=30  -0.0412   0.0 -0.0533  -0.029   True
+ a.<=15  c.<=60  -0.0636   0.0 -0.0751  -0.052   True
+ a.<=15 d.<=240  -0.0858   0.0 -0.0982 -0.0735   True
+ a.<=15  e.>240  -0.1585   0.0 -0.1763 -0.1407   True
+ b.<=30  c.<=60  -0.0224   0.0  -0.033 -0.0118   True
+ b.<=30 d.<=240  -0.0447   0.0 -0.0561 -0.0332   True
+ b.<=30  e.>240  -0.1174   0.0 -0.1345 -0.1002   True
+ c.<=60 d.<=240  -0.0223   0.0 -0.0331 -0.0114   True
+ c.<=60  e.>240   -0.095   0.0 -0.1117 -0.0782   True
+d.<=240  e.>240  -0.0727   0.0   -0.09 -0.0554   True
+-----------------------------------------------------
+
+Group Variable: minutes_buckets, Response Variable: n_ingredients
+ Multiple Comparison of Means - Tukey HSD, FWER=0.01 
+=====================================================
+ group1  group2 meandiff p-adj  lower   upper  reject
+-----------------------------------------------------
+ a.<=15  b.<=30   2.0949   0.0  2.0616  2.1282   True
+ a.<=15  c.<=60   3.1042   0.0  3.0725  3.1359   True
+ a.<=15 d.<=240   3.8349   0.0   3.801  3.8687   True
+ a.<=15  e.>240   2.6445   0.0  2.5959  2.6932   True
+ b.<=30  c.<=60   1.0093   0.0  0.9802  1.0383   True
+ b.<=30 d.<=240     1.74   0.0  1.7086  1.7713   True
+ b.<=30  e.>240   0.5496   0.0  0.5027  0.5966   True
+ c.<=60 d.<=240   0.7307   0.0   0.701  0.7603   True
+ c.<=60  e.>240  -0.4597   0.0 -0.5055 -0.4138   True
+d.<=240  e.>240  -1.1903   0.0 -1.2377  -1.143   True
+-----------------------------------------------------
+
+Group Variable: minutes_buckets, Response Variable: n_steps
+ Multiple Comparison of Means - Tukey HSD, FWER=0.01 
+=====================================================
+ group1  group2 meandiff p-adj  lower   upper  reject
+-----------------------------------------------------
+ a.<=15  b.<=30   3.1395   0.0  3.0874  3.1917   True
+ a.<=15  c.<=60   4.8726   0.0   4.823  4.9222   True
+ a.<=15 d.<=240   6.4188   0.0  6.3659  6.4718   True
+ a.<=15  e.>240   4.0548   0.0  3.9786  4.1309   True
+ b.<=30  c.<=60    1.733   0.0  1.6875  1.7786   True
+ b.<=30 d.<=240   3.2793   0.0  3.2302  3.3285   True
+ b.<=30  e.>240   0.9152   0.0  0.8416  0.9888   True
+ c.<=60 d.<=240   1.5463   0.0  1.4998  1.5927   True
+ c.<=60  e.>240  -0.8178   0.0 -0.8896  -0.746   True
+d.<=240  e.>240  -2.3641   0.0 -2.4382 -2.2899   True
+-----------------------------------------------------
+```
+
+Similar results are also calculated after bucketing n_steps
+```bash
+Group Variable: steps_buckets, Response Variable: rating
+Multiple Comparison of Means - Tukey HSD, FWER=0.01 
+====================================================
+group1 group2 meandiff p-adj   lower   upper  reject
+----------------------------------------------------
+ a.<=5 b.<=10  -0.0306    0.0 -0.0402 -0.0211   True
+ a.<=5 c.<=20  -0.0402    0.0 -0.0504 -0.0299   True
+ a.<=5  d.>20  -0.0997    0.0 -0.1188 -0.0806   True
+b.<=10 c.<=20  -0.0095 0.0043 -0.0183 -0.0007   True
+b.<=10  d.>20   -0.069    0.0 -0.0874 -0.0507   True
+c.<=20  d.>20  -0.0595    0.0 -0.0782 -0.0408   True
+----------------------------------------------------
+
+Group Variable: steps_buckets, Response Variable: n_ingredients
+Multiple Comparison of Means - Tukey HSD, FWER=0.01
+=================================================
+group1 group2 meandiff p-adj lower  upper  reject
+-------------------------------------------------
+ a.<=5 b.<=10   1.5406   0.0 1.5148 1.5665   True
+ a.<=5 c.<=20    3.413   0.0 3.3854 3.4407   True
+ a.<=5  d.>20    4.976   0.0 4.9245 5.0275   True
+b.<=10 c.<=20   1.8724   0.0 1.8486 1.8962   True
+b.<=10  d.>20   3.4354   0.0 3.3859 3.4849   True
+c.<=20  d.>20    1.563   0.0 1.5125 1.6134   True
+-------------------------------------------------
+
+Group Variable: steps_buckets, Response Variable: minutes1
+Multiple Comparison of Means - Tukey HSD, FWER=0.01
+===================================================
+group1 group2 meandiff p-adj  lower   upper  reject
+---------------------------------------------------
+ a.<=5 b.<=10  12.5713   0.0 11.0148 14.1278   True
+ a.<=5 c.<=20  19.8714   0.0 18.2029 21.5398   True
+ a.<=5  d.>20  98.3795   0.0 95.2769 101.482   True
+b.<=10 c.<=20   7.3001   0.0  5.8663  8.7339   True
+b.<=10  d.>20  85.8082   0.0 82.8252 88.7911   True
+c.<=20  d.>20  78.5081   0.0 75.4653  81.551   True
+---------------------------------------------------
+```
 
 #### Modelling
 
