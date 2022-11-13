@@ -87,6 +87,7 @@ The user interaction recipe data has 5 columns, with head of the table given bel
 ```bash
 Index(['user_id', 'recipe_id', 'date', 'rating', 'review'], dtype='object')
 ```
+
 | user_id | recipe_id |       date | rating |                                            review |
 |--------:|----------:|-----------:|-------:|--------------------------------------------------:|
 |   38094 |     40893 | 2003-02-17 |      4 | Great with a salad. Cooked on top of stove for... |
@@ -96,44 +97,113 @@ Index(['user_id', 'recipe_id', 'date', 'rating', 'review'], dtype='object')
 |   57222 |     85009 | 2011-10-01 |      5 | Made the cheddar bacon topping, adding a sprin... |
 
 The number of unique users and unique recipes is given as:
-```bash
-Index(['user_id', 'recipe_id', 'date', 'rating', 'review'], dtype='object')
+```
+user_id         226570
+recipe_id       231637
+user_recipe    1132367
 ```
 
-##### Recipe Data
-The recipe data has 12 columns and 231636 rows, which gives us 231636 unique recipes with 12 features.
-```bash
-Index(['name', 'id', 'minutes', 'contributor_id', 'submitted', 'tags',
-       'nutrition', 'n_steps', 'steps', 'description', 'ingredients',
-       'n_ingredients'],
-      dtype='object')
+As expected not every user rates every recipe, which is apparent from the counts above. An estimate of the sparsity of interaction matrix is:
+```python
+sparsity = 1- (1132367/(N_users*N_Recipes))
+print (f"Sparsity in data {sparsity:.9%}")
+#Sparsity in data 99.997842371%
 ```
-Among the 231636 datapoints, there is only one data point that is a missing value. The data point doesn't have attribute name. Therefore, we delete this datapoint.
 
-After analyzing the quantitative data, we found that the mean steps of cooking is around 9.5 steps; mean cooking time is about 9 mins, and mean number of ingredient is around 9. Also, there is positive relations between steps and ingredients.
+We have analysed the distribution of these interactions below:
 
-|               | minutes   | n_steps   | n_ingredients |
-|---------------|-----------|-----------|---------------|
-| minutes       | 1.000000  | -0.000257 | -0.000592     |
-| n_steps       | -0.000257 | 1.000000  | 0.427706      |
-| n_ingredients | -0.000592 | 0.427706  | 1.000000      |
+1. How many recipes do the users rate?
+```python
+user_grp[[("recipe_id","count")]].quantile([0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1])
+```
 
-|       | minutes      | n_steps       | n_ingredients |
-|-------|--------------|---------------|---------------|
-| count | 2.316360e+05 | 231636.000000 | 231636.000000 |
-| mean  | 9.398587e+03 | 9.765516      | 9.051149      |
-| std   | 4.461973e+06 | 5.995136      | 3.734803      |
-| min   | 0.000000e+00 | 0.000000      | 1.000000      |
-| 25%   | 2.000000e+01 | 6.000000      | 6.000000      |
-| 50%   | 4.000000e+01 | 9.000000      | 9.000000      |
-| 75%   | 6.500000e+01 | 12.000000     | 11.000000     |
-| max   | 2.147484e+09 | 145.000000    | 43.000000     |
-The n_ingredient data is skew to the right, however, the mode of n_ingredients is also around 9 and 10.
-![n_ingredient](./images/Ingredient_number_hist.png?raw=true)
+|      Percentile | 0.1 | 0.2 | 0.3 | 0.4 | 0.5 | 0.6 | 0.7 | 0.8 | 0.9 |    1.0 |
+|----------------:|----:|----:|----:|----:|----:|----:|----:|----:|----:|-------:|
+| recipe_id,count | 1.0 | 1.0 | 1.0 | 1.0 | 1.0 | 1.0 | 1.0 | 2.0 | 5.0 | 7671.0 |
+
+_Thus almost 90% of the users rate <=5 recipes, to create a heavy left tail skew._
+
+2. How many users rate the same recipes ?
+The converse of the above distribution is the distribution of users rating the same recipe.
+```python
+recipe_grp[[("user_id","count")]].quantile([0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1])
+```
+
+| Percentile    | 0.1 | 0.2 | 0.3 | 0.4 | 0.5 | 0.6 | 0.7 | 0.8 | 0.9 | 1.0    |
+|---------------|-----|-----|-----|-----|-----|-----|-----|-----|-----|--------|
+| user_id,count | 1.0 | 1.0 | 1.0 | 2.0 | 2.0 | 3.0 | 3.0 | 5.0 | 9.0 | 1613.0 |
+
+_Similar to above we see a highly skewed distribution, with 80% of the recipes being rated by <=5 users_
+
+3. Distribution of Ratings?
+```python
+raw_interactions["rating"].hist()
+```
+![Ratings Histogram](./images/rating_histogram.png?raw=true)
+
+_The ratings follow a heavy skew, with 4 and 5 being the predominant rating_
 
 
-The matrix factorization method will use the concept of Truncated Singular Value Decomposition to obtain highly predictive latent features using the sparse ratings matrix and provide a fair approximation of predictions of new items ratings.
+#### Modelling
 
+```python
+TRAIN__Validation_SIZE = 0.8
+TEST_SIZE = 0.2
+```
+
+We have tried two approaches for recommendation system:
+##### 1. Collaborative Filtering
+##### 2. Matrix Factorisation
+The matrix factorization method will use the concept of Singular Value Decomposition to obtain highly predictive latent features using the sparse ratings matrix and provide a fair approximation of predictions of new items ratings.
+We use SVD from the surprise library, which implements a biased matrix factorisation as:
+
+$$
+R \sim Q*P + Bias(user,item)\
+\text{here Bias term is dependent on the average rating of user and item}
+$$
+
+The key hyper parameter in the Matrix Factorisation approach is the k or the number of latent features to use for the matrix decomposition. We use a Grid Search CV (with 5 folds) to arrive at the best value.
+```python
+param_grid = {"n_factors":[20, 50] ,"n_epochs": [10, 15], "lr_all": [0.002, 0.005]}
+gs = GridSearchCV(SVD, param_grid, measures=["rmse", "mae"], cv=5, n_jobs = -2)
+
+gs.fit(cv_data)
+
+# best RMSE score
+print(gs.best_score["rmse"])
+#1.218094140876164
+
+# combination of parameters that gave the best RMSE score
+print(gs.best_params["rmse"])
+#{'n_factors': 20, 'n_epochs': 15, 'lr_all': 0.005}
+
+print(gs.best_params["mae"])
+#{'n_factors': 20, 'n_epochs': 15, 'lr_all': 0.005}
+```
+
+For the above choice of hyperparameters our Test RMSE is:
+```python
+predictions = algo.test(test_set_surprise)
+accuracy.rmse(predictions, verbose=True)
+#RMSE: 1.2117
+```
+
+###### Analysis of latent features
+The decomposed user and rating matrix is given as:
+```python
+user_matrix = algo.pu
+user_matrix.shape
+#(192203, 20)
+
+recipe_matrix = algo.qi
+recipe_matrix.shape
+#(211175, 20)
+```
+We have tried to check the correlation of the 20 latent features, with recipe metadata, namely minutes, n_steps and n_ingredients. However, we do not see any apparent correlation.
+
+![Corelation plot](./images/latent_features_corelation.png?raw=true)
+
+In the next iteration, we hope to derive embeddings from description and ingredients from the recipe metadata, and do a similar analysis.
 
 ## Results & Discussion (old)
 
@@ -151,7 +221,7 @@ We will use the user-food interaction data which contains the temporal food-item
 The matrix factorization method will use the concept of Truncated Singular Value Decomposition to obtain highly predictive latent features using the sparse ratings matrix and provide a fair approximation of predictions of new items ratings.
 
 In recommendation systems , we have to not only ensure greater accuracy on ratings prediction but also have the most relevant items at the top of the recommendation list i.e. ranking of the recommendations.
-- Evalution metrics to be used : **MAP@k** (Mean Average Precision at K) and **NDCG** (Normalized Discounted Cummulative Gain)
+- Evaluation metrics to be used : **MAP@k** (Mean Average Precision at K) and **NDCG** (Normalized Discounted Cummulative Gain)
 
 ### Points for further exploration
 
