@@ -87,7 +87,6 @@ The user interaction recipe data has 5 columns, with head of the table given bel
 ```bash
 Index(['user_id', 'recipe_id', 'date', 'rating', 'review'], dtype='object')
 ```
-
 | user_id | recipe_id |       date | rating |                                            review |
 |--------:|----------:|-----------:|-------:|--------------------------------------------------:|
 |   38094 |     40893 | 2003-02-17 |      4 | Great with a salad. Cooked on top of stove for... |
@@ -144,6 +143,37 @@ raw_interactions["rating"].hist()
 _The ratings follow a heavy skew, with 4 and 5 being the predominant rating_
 
 
+##### Recipe Data
+The recipe data has 12 columns and 231636 rows, which gives us 231636 unique recipes with 12 features.
+```bash
+Index(['name', 'id', 'minutes', 'contributor_id', 'submitted', 'tags',
+       'nutrition', 'n_steps', 'steps', 'description', 'ingredients',
+       'n_ingredients'],
+      dtype='object')
+```
+Among the 231636 datapoints, there is only one data point that is a missing value. The data point doesn't have attribute name. Therefore, we delete this datapoint.
+
+After analyzing the quantitative data, we found that the mean steps of cooking is around 9.5 steps; mean cooking time is about 9 mins, and mean number of ingredient is around 9. Also, there is positive relations between steps and ingredients.
+
+|               | minutes   | n_steps   | n_ingredients |
+|---------------|-----------|-----------|---------------|
+| minutes       | 1.000000  | -0.000257 | -0.000592     |
+| n_steps       | -0.000257 | 1.000000  | 0.427706      |
+| n_ingredients | -0.000592 | 0.427706  | 1.000000      |
+
+|       | minutes      | n_steps       | n_ingredients |
+|-------|--------------|---------------|---------------|
+| count | 2.316360e+05 | 231636.000000 | 231636.000000 |
+| mean  | 9.398587e+03 | 9.765516      | 9.051149      |
+| std   | 4.461973e+06 | 5.995136      | 3.734803      |
+| min   | 0.000000e+00 | 0.000000      | 1.000000      |
+| 25%   | 2.000000e+01 | 6.000000      | 6.000000      |
+| 50%   | 4.000000e+01 | 9.000000      | 9.000000      |
+| 75%   | 6.500000e+01 | 12.000000     | 11.000000     |
+| max   | 2.147484e+09 | 145.000000    | 43.000000     |
+The n_ingredient data is skew to the right, however, the mode of n_ingredients is also around 9 and 10.
+![n_ingredient](./images/Ingredient_number_hist.png?raw=true)
+
 #### Modelling
 
 ```python
@@ -166,6 +196,7 @@ The key hyper parameter in the Matrix Factorisation approach is the k or the num
 ```python
 param_grid = {"n_factors":[20, 50] ,"n_epochs": [10, 15], "lr_all": [0.002, 0.005]}
 gs = GridSearchCV(SVD, param_grid, measures=["rmse", "mae"], cv=5, n_jobs = -2)
+
 
 gs.fit(cv_data)
 
@@ -205,6 +236,7 @@ We have tried to check the correlation of the 20 latent features, with recipe me
 
 In the next iteration, we hope to derive embeddings from description and ingredients from the recipe metadata, and do a similar analysis.
 
+
 ## Results & Discussion (old)
 
 ### CNN System Module
@@ -221,7 +253,7 @@ We will use the user-food interaction data which contains the temporal food-item
 The matrix factorization method will use the concept of Truncated Singular Value Decomposition to obtain highly predictive latent features using the sparse ratings matrix and provide a fair approximation of predictions of new items ratings.
 
 In recommendation systems , we have to not only ensure greater accuracy on ratings prediction but also have the most relevant items at the top of the recommendation list i.e. ranking of the recommendations.
-- Evaluation metrics to be used : **MAP@k** (Mean Average Precision at K) and **NDCG** (Normalized Discounted Cummulative Gain)
+- Evalution metrics to be used : **MAP@k** (Mean Average Precision at K) and **NDCG** (Normalized Discounted Cummulative Gain)
 
 ### Points for further exploration
 
