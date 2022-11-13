@@ -9,9 +9,9 @@
 <details open="open">
   <summary>Table of Contents</summary>
   <ol>
-    <li><a href="Background"> ➤ Background</a></li>
+    <li><a href="#Background"> ➤ Background</a></li>
     <li><a href="#Problem Definition"> ➤ Problem Definition</a></li>
-    <li><a href="#folder-structure"> ➤ Project Organsisation</a></li>
+    <li><a href="#Project Pipeline"> ➤ Project Pipeline</a></li>
     <li><a href="#dataset"> ➤ Dataset</a></li>
     <li><a href="#roadmap"> ➤ Roadmap</a></li>
     <li><a href="#contributors"> ➤ Contributors</a></li>
@@ -23,6 +23,7 @@
 
 <!-- Background -->
 <h2 id="Background"> Background</h2>
+
 Machine Learning systems today aid decision making across the entire spectrum of life. One such decision, that each human has to make daily is his/her "meal choice" . The said decision depends on a multitude of factors like nutritional requirements, eating preferences and mood etc.
 
 In this project, we thus aim to build an ML system that aids multiple aspects of Meal Choice decision using Image Recognition and Recommender Systems.
