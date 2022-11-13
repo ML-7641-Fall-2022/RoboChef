@@ -189,7 +189,21 @@ accuracy.rmse(predictions, verbose=True)
 ```
 
 ###### Analysis of latent features
+The decomposed user and rating matrix is given as:
+```python
+user_matrix = algo.pu
+user_matrix.shape
+#(192203, 20)
 
+recipe_matrix = algo.qi
+recipe_matrix.shape
+#(211175, 20)
+```
+We have tried to check the correlation of the 20 latent features, with recipe metadata, namely minutes, n_steps and n_ingredients. However, we do not see any apparent correlation.
+
+![Corelation plot](./images/latent_features_corelation.png?raw=true)
+
+In the next iteration, we hope to derive embeddings from description and ingredients from the recipe metadata, and do a similar analysis.
 
 ## Results & Discussion (old)
 
