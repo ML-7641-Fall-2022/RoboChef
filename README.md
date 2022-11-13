@@ -97,12 +97,54 @@ Index(['user_id', 'recipe_id', 'date', 'rating', 'review'], dtype='object')
 
 The number of unique users and unique recipes is given as:
 ```bash
-Index(['user_id', 'recipe_id', 'date', 'rating', 'review'], dtype='object')
+user_id         226570
+recipe_id       231637
+user_recipe    1132367
 ```
 
+<span style="color:red">As expected not every user rates every recipe, which is apparent from the counts above. An estimate of the sparsity of interaction matrix is:</span>
+```python
+sparsity = 1- (1132367/(N_users*N_Recipes))
+print (f"Sparsity in data {sparsity:.9%}")
+#Sparsity in data 99.997842371%
+```
+
+We have analysed the distribution of these interactions below:
+
+1a. How many recipes do the users rate?
+```python
+user_grp[[("recipe_id","count")]].quantile([0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1])
+```
+|      Percentile | 0.1 | 0.2 | 0.3 | 0.4 | 0.5 | 0.6 | 0.7 | 0.8 | 0.9 |    1.0 |
+|----------------:|----:|----:|----:|----:|----:|----:|----:|----:|----:|-------:|
+| recipe_id,count | 1.0 | 1.0 | 1.0 | 1.0 | 1.0 | 1.0 | 1.0 | 2.0 | 5.0 | 7671.0 |
+<span style="color:red">Thus almost 90% of the users rate <=5 recipes, to create a heavy left tail skew.</span>
+
+1b. How many users rate the same recipes ?
+The converse of the above distribution is the distribution of users rating the same recipe.
+```python
+recipe_grp[[("user_id","count")]].quantile([0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1])
+```
+| Percentile    | 0.1 | 0.2 | 0.3 | 0.4 | 0.5 | 0.6 | 0.7 | 0.8 | 0.9 | 1.0    |
+|---------------|-----|-----|-----|-----|-----|-----|-----|-----|-----|--------|
+| user_id,count | 1.0 | 1.0 | 1.0 | 2.0 | 2.0 | 3.0 | 3.0 | 5.0 | 9.0 | 1613.0 |
+<span style="color:red">Similar to above we see a highly skewed distribution, with 80% of the recipes being rated by <=5 users</span>
+
+2. Distribution of Ratings?
+```python
+raw_interactions["rating"].hist()
+```
+![Ratings Histogram](./images/rating_histogram.png?raw=true)
+
+<span style="color:red">The ratings follow a heavy skew, with 4 and 5 being the predominant rating</span>
 
 
-The matrix factorization method will use the concept of Truncated Singular Value Decomposition to obtain highly predictive latent features using the sparse ratings matrix and provide a fair approximation of predictions of new items ratings.
+#### Modelling
+We have tried two approaches for recommendation system:
+##### 1. Collaborative Filtering
+##### 2. Matrix Factorisation
+The matrix factorization method will use the concept of Singular Value Decomposition to obtain highly predictive latent features using the sparse ratings matrix and provide a fair approximation of predictions of new items ratings.
+###### Analysis of latent features
 
 
 ## Results & Discussion (old)
