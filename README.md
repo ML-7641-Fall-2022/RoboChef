@@ -118,6 +118,7 @@ user_grp[[("recipe_id","count")]].quantile([0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,
 |      Percentile | 0.1 | 0.2 | 0.3 | 0.4 | 0.5 | 0.6 | 0.7 | 0.8 | 0.9 |    1.0 |
 |----------------:|----:|----:|----:|----:|----:|----:|----:|----:|----:|-------:|
 | recipe_id,count | 1.0 | 1.0 | 1.0 | 1.0 | 1.0 | 1.0 | 1.0 | 2.0 | 5.0 | 7671.0 |
+
 <span style="color:red">Thus almost 90% of the users rate <=5 recipes, to create a heavy left tail skew.</span>
 
 1b. How many users rate the same recipes ?
@@ -128,6 +129,7 @@ recipe_grp[[("user_id","count")]].quantile([0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,
 | Percentile    | 0.1 | 0.2 | 0.3 | 0.4 | 0.5 | 0.6 | 0.7 | 0.8 | 0.9 | 1.0    |
 |---------------|-----|-----|-----|-----|-----|-----|-----|-----|-----|--------|
 | user_id,count | 1.0 | 1.0 | 1.0 | 2.0 | 2.0 | 3.0 | 3.0 | 5.0 | 9.0 | 1613.0 |
+
 <span style="color:red">Similar to above we see a highly skewed distribution, with 80% of the recipes being rated by <=5 users</span>
 
 2. Distribution of Ratings?
