@@ -112,7 +112,7 @@ print (f"Sparsity in data {sparsity:.9%}")
 
 We have analysed the distribution of these interactions below:
 
-1a. How many recipes do the users rate?
+1. How many recipes do the users rate?
 ```python
 user_grp[[("recipe_id","count")]].quantile([0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1])
 ```
@@ -123,7 +123,7 @@ user_grp[[("recipe_id","count")]].quantile([0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,
 
 _Thus almost 90% of the users rate <=5 recipes, to create a heavy left tail skew._
 
-1b. How many users rate the same recipes ?
+2. How many users rate the same recipes ?
 The converse of the above distribution is the distribution of users rating the same recipe.
 ```python
 recipe_grp[[("user_id","count")]].quantile([0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1])
@@ -135,7 +135,7 @@ recipe_grp[[("user_id","count")]].quantile([0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,
 
 _Similar to above we see a highly skewed distribution, with 80% of the recipes being rated by <=5 users_
 
-2. Distribution of Ratings?
+3. Distribution of Ratings?
 ```python
 raw_interactions["rating"].hist()
 ```
