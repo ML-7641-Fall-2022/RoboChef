@@ -87,6 +87,7 @@ The user interaction recipe data has 5 columns, with head of the table given bel
 ```bash
 Index(['user_id', 'recipe_id', 'date', 'rating', 'review'], dtype='object')
 ```
+
 | user_id | recipe_id |       date | rating |                                            review |
 |--------:|----------:|-----------:|-------:|--------------------------------------------------:|
 |   38094 |     40893 | 2003-02-17 |      4 | Great with a salad. Cooked on top of stove for... |
@@ -115,6 +116,7 @@ We have analysed the distribution of these interactions below:
 ```python
 user_grp[[("recipe_id","count")]].quantile([0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1])
 ```
+
 |      Percentile | 0.1 | 0.2 | 0.3 | 0.4 | 0.5 | 0.6 | 0.7 | 0.8 | 0.9 |    1.0 |
 |----------------:|----:|----:|----:|----:|----:|----:|----:|----:|----:|-------:|
 | recipe_id,count | 1.0 | 1.0 | 1.0 | 1.0 | 1.0 | 1.0 | 1.0 | 2.0 | 5.0 | 7671.0 |
@@ -126,6 +128,7 @@ The converse of the above distribution is the distribution of users rating the s
 ```python
 recipe_grp[[("user_id","count")]].quantile([0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1])
 ```
+
 | Percentile    | 0.1 | 0.2 | 0.3 | 0.4 | 0.5 | 0.6 | 0.7 | 0.8 | 0.9 | 1.0    |
 |---------------|-----|-----|-----|-----|-----|-----|-----|-----|-----|--------|
 | user_id,count | 1.0 | 1.0 | 1.0 | 2.0 | 2.0 | 3.0 | 3.0 | 5.0 | 9.0 | 1613.0 |
