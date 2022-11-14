@@ -395,7 +395,7 @@ df_small = df_raw[(df_raw.user_idx.isin(user_ids_keep)) & df_raw.recipe_idx.isin
 
 The similarity between 2 users is computed using the Pearson Correlation coefficient based on all the ratings for the common recipes. Also , only those set of users are considered as neighboring points who have atleast 5 common recipes so that our recommendation is not biased. 
 
-The ratings are centered around mean(deviations) to handle the inherent bias in user's ratings (for e.g. some users are very lenient and always rate every recipe 4 or 5 whereas there are some users who have slightly stricter in giving ratings and they give a 3 or a 2 rating to most of the recipes)
+The ratings are centered around mean(deviations) to handle the inherent bias in user's ratings (for e.g. some users are very lenient and always rate every recipe 4 or 5 whereas there are some users who have slightly stricter in giving ratings and they give a 3 or a 2 rating to most of the recipes).
 
 Few hyperparameters which need to be further explored are : 
 
