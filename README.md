@@ -387,9 +387,67 @@ We have used user-user collaborative filtering technique to predict the ratings 
 
 Since , this method leverages the ratings from a list of closest users corresponding to each user based on their common recipes , therefore we have filtered for only those users and recipes which have atleast 10 interactions in the overall dataset.
 
+```{python}
+user_ids_count = Counter(df_raw.user_idx)
+recipe_ids_count = Counter(df_raw.recipe_idx)
+df_small = df_raw[(df_raw.user_idx.isin(user_ids_keep)) & df_raw.recipe_idx.isin(recipe_ids_keep)].reset_index(drop=True).copy()
+```
+
 The similarity between 2 users is computed using the Pearson Correlation coefficient based on all the ratings for the common recipes. Also , only those set of users are considered as neighboring points who have atleast 5 common recipes so that our recommendation is not biased.
 
+```{python}
+K = 25 # number of neighbors we'd like to consider
+limit = 5 # number of common recipes users must have in common in order to consider
+neighbors = {} # store neighbors in this list
+averages = {} # each user's average rating for later use
+deviations = {} # each user's deviation for later use
+SIGMA_CONST = 1e-6
 
+for j1,i in enumerate(list(set(df_train.user_id.values))):
+    
+    recipes_i = user2recipe[i]
+    recipes_i_set = set(recipes_i)
+
+    # calculate avg and deviation
+    ratings_i = { recipe:userrecipe2rating[(i, recipe)] for recipe in recipes_i }
+    avg_i = np.mean(list(ratings_i.values()))
+    dev_i = { recipe:(rating - avg_i) for recipe, rating in ratings_i.items() }
+    dev_i_values = np.array(list(dev_i.values()))
+    sigma_i = np.sqrt(dev_i_values.dot(dev_i_values))
+
+    # save these for later use
+    averages[i]=avg_i
+    deviations[i]=dev_i
+    
+    sl = SortedList()
+    
+    for i1,j in enumerate(list(set(df_train.user_id.values))):
+        if j!=i:
+            recipes_j = user2recipe[j]
+            recipes_j_set = set(recipes_j)
+            common_recipes = (recipes_i_set & recipes_j_set)
+            if(len(common_recipes)>limit):
+                
+                # calculate avg and deviation
+                ratings_j = { recipe:userrecipe2rating[(j, recipe)] for recipe in recipes_j }
+                avg_j = np.mean(list(ratings_j.values()))
+                dev_j = { recipe:(rating - avg_j) for recipe, rating in ratings_j.items() }
+                dev_j_values = np.array(list(dev_j.values()))
+                sigma_j = np.sqrt(dev_j_values.dot(dev_j_values))
+                
+                # calculate correlation coefficient
+                numerator = sum(dev_i[m]*dev_j[m] for m in common_recipes)
+                denominator = ((sigma_i+SIGMA_CONST) * (sigma_j+SIGMA_CONST))
+                w_ij = numerator / (denominator)
+                # insert into sorted list and truncate
+                # negate absolute weight, because list is sorted ascending and we get all neighbors with the highest correlation
+                # maximum value (1) is "closest"
+                sl.add((-np.abs(w_ij), j))
+                # Putting an upper cap on the number of neighbors
+                if len(sl)>K:
+                    del sl[-1]
+```                    
+                  
 
 ##### 2. Matrix Factorisation
 The matrix factorization method will use the concept of Singular Value Decomposition to obtain highly predictive latent features using the sparse ratings matrix and provide a fair approximation of predictions of new items ratings.
