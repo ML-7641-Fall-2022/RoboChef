@@ -397,6 +397,12 @@ The similarity between 2 users is computed using the Pearson Correlation coeffic
 
 The ratings are centered around mean(deviations) to handle the inherent bias in user's ratings (for e.g. some users are very lenient and always rate every recipe 4 or 5 whereas there are some users who have slightly stricter in giving ratings and they give a 3 or a 2 rating to most of the recipes)
 
+Few hyperparameters which need to be further explored are : 
+
+-> Minimum number of interactions to consider in the collaborative filtering : 10 
+-> Number of neighboring points to consider : 25
+-> Limit (Number of recipes in common to be considered when using pearson correlation coefficient) : 5
+
 ```python
 K = 25 # number of neighbors we'd like to consider
 limit = 5 # number of common recipes users must have in common in order to consider
