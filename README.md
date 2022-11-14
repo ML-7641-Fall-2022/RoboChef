@@ -383,7 +383,12 @@ TEST_SIZE = 0.2
 
 We have tried two approaches for recommendation system:
 ##### 1. Collaborative Filtering 
-We have used user-user collaborative filtering technique to predict the recipe ratings. 
+We have used user-user collaborative filtering technique to predict the ratings for recipes not yet consumed by the user. 
+
+```python 
+print("Hello World")
+```
+
 ##### 2. Matrix Factorisation
 The matrix factorization method will use the concept of Singular Value Decomposition to obtain highly predictive latent features using the sparse ratings matrix and provide a fair approximation of predictions of new items ratings.
 We use SVD from the surprise library, which implements a biased matrix factorisation as:
