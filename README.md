@@ -241,6 +241,7 @@ The user interaction recipe data has 5 columns, with head of the table given bel
 ```bash
 Index(['user_id', 'recipe_id', 'date', 'rating', 'review'], dtype='object')
 ```
+
 | user_id | recipe_id |       date | rating |                                            review |
 |--------:|----------:|-----------:|-------:|--------------------------------------------------:|
 |   38094 |     40893 | 2003-02-17 |      4 | Great with a salad. Cooked on top of stove for... |
@@ -248,6 +249,7 @@ Index(['user_id', 'recipe_id', 'date', 'rating', 'review'], dtype='object')
 |    8937 |     44394 | 2002-12-01 |      4 |  This worked very well and is EASY. I used not... |
 |  126440 |     85009 | 2010-02-27 |      5 | I made the Mexican topping and took it to bunk... |
 |   57222 |     85009 | 2011-10-01 |      5 | Made the cheddar bacon topping, adding a sprin... |
+
 
 The number of unique users and unique recipes is given as:
 ```
