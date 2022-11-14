@@ -384,8 +384,10 @@ TEST_SIZE = 0.2
 We have tried two approaches for recommendation system:
 ##### 1. Collaborative Filtering 
 We have used user-user collaborative filtering technique to predict the ratings for recipes not yet consumed by the user. 
+
 Since , this method leverages the ratings from a list of closest users corresponding to each user based on their common recipes , therefore we have filtered for only those users and recipes which have atleast 10 interactions.
-The similarity between 2 users is computed using the Pearson Correlation coefficient of all the ratings for the common recipes.
+
+The similarity between 2 users is computed using the Pearson Correlation coefficient based on all the ratings for the common recipes. Also , only those set of users are considered as neighboring points who have atleast 5 common recipes so that our recommendation is not biased.
 
 
 
