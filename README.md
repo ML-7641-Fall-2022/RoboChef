@@ -400,7 +400,9 @@ The ratings are centered around mean(deviations) to handle the inherent bias in 
 Few hyperparameters which need to be further explored are : 
 
 -> Minimum number of interactions to consider in the collaborative filtering : 10 
+
 -> Number of neighboring points to consider : 25
+
 -> Limit (Number of recipes in common to be considered when using pearson correlation coefficient) : 5
 
 ```python
