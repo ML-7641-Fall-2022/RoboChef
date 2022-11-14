@@ -449,7 +449,18 @@ for j1,i in enumerate(list(set(df_train.user_id.values))):
                 if len(sl)>K:
                     del sl[-1]
 ```                    
-                  
+    
+ We have evaulated the model performance based on rmse value after doing a train test split with 4:1 ratio. 
+ 
+ ```python
+print('train mse:', mse(train_predictions, train_targets))
+print('test mse:', mse(test_predictions, test_targets))
+
+print('train rmse:', rmse(train_predictions, train_targets))
+print('test rmse:', rmse(test_predictions, test_targets))
+```
+
+ 
 
 ##### 2. Matrix Factorisation
 The matrix factorization method will use the concept of Singular Value Decomposition to obtain highly predictive latent features using the sparse ratings matrix and provide a fair approximation of predictions of new items ratings.
