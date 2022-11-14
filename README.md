@@ -113,12 +113,9 @@ train_data = ImageDataLoaders.from_df(df=train_df, path=path_images, fn_col=1, l
 
 Training data has also been augmented with random transformations like crops, rotate, zoom, brightness and contrast to increase the sample size for the CNN models. At the same time, it also helps the model generalize better with more variance in the images.
 
-**Placeholder for an example augmentation code**
-
-**Placeholder for an example augmentation image**
 #### Metrics
 
-We are using Error Rate, Top-1% accuracy and Top-5% accuracy as our metrics to compare between model performances.
+We are using Error Rate, Top-1 accuracy and Top-5 accuracy as our metrics to compare between model performances.
 
 Our loss function is cross-entropy.
 
@@ -131,6 +128,7 @@ In the initial model we are leveraging transfer learning and using ResNet34 pre-
 We are keeping the learning rate constant (1e-2) and not using adaptive learning rate. We will also be freezing the weights of the model and not re-training the last layers.
 
 ![ResNet34Fit](./images/resnet34-fit.png?raw=true)
+
 It can be seen that this model takes arond 9 mins to train for each epoch. The training loss and validation loss both seem to go down after each iteration until it almost becomes constant. We stop the model at 8 epochs. We cn also see that the error rate decreased from 0.48 to 0.31 in 8 epochs before plateauing.
 
 ![ResNet34Validation](./images/resnet34-validation.png?raw=true)
@@ -149,7 +147,7 @@ We are again keeping the learning rate constant (1e-2) and not using adaptive le
 
 This model takes an average of 13 mins to train as suggested by 16 extra layers in the model. We can observe that the model has achieves a much lower error rate in 8 epochs and we are able to achieve 73% accuracy with Top-5 accuracy of 91%.
 
-![ResNet50LossVsEpochs](./images/loss-vs-iterations.png?raw=true)
+![ResNet50LossVsEpochs](./images/resnet50-loss-vs-iterations.png)
 
 As we can see from the graph below for Loss Vs Iterations that we are achieving a constant decrease in loss as the iteration increase and it becomes almost constant at the end.
 
