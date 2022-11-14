@@ -460,6 +460,12 @@ print('train rmse:', rmse(train_predictions, train_targets))
 print('test rmse:', rmse(test_predictions, test_targets))
 ```
 
+``` text
+train mse: 0.8615178024084629
+test mse: 0.9062015866125724
+train rmse: 0.9281798330110728
+test rmse: 0.9519462099365554
+```
  
 
 ##### 2. Matrix Factorisation
