@@ -4,13 +4,13 @@ Contact at ashish1610dhiman@gmail.com
 """
 import pickle
 
-def write_pickle(object, filename):
-    filehandler = open(filename, 'w')
-    pickle.dump(object, filehandler)
+def write_pickle(x, filename):
+    filehandler = open(filename, 'wb')
+    pickle.dump(x, filehandler)
     # print ("Pickle Dump Falied")
 
 
 def load_pickle(filename):
-    filehandler = open(filename, 'r')
-    object = pickle.load(filehandler)
-    return (object)
+    file = open(filename, 'rb')
+    res = pickle.load(file)
+    return (res)
