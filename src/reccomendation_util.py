@@ -83,7 +83,7 @@ def get_true_ranking_user_baseline(df_test, item_id="recipe_id"):
     return df_rank
 
 
-def gen_recipe_list(df_raw,user_id,filters=[]):
+def gen_recipe_list(df_meta,df_interaction,user_id,filters=[]):
     """
     args:
         df_raw --> pick recipe ids from this data frame
@@ -93,11 +93,11 @@ def gen_recipe_list(df_raw,user_id,filters=[]):
     """
     if len(filters)>0:
         combined_filter = reduce(lambda x,y: x & y, filters)
-        df_filter = df_raw.loc[combined_filter]
+        df_filter = df_meta.loc[combined_filter]
     else:
-        df_filter = df_raw
+        df_filter = df_meta
     #Remove already interacted items
-    not_interacted,interacted = _user_items(df_raw, user_id)
+    not_interacted,interacted = _user_items(df_interaction, user_id)
     mask_not_interacted = df_filter["recipe_id"].isin(not_interacted)
     return (df_filter.loc[mask_not_interacted]["recipe_id"].unique())
 
