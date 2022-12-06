@@ -665,6 +665,11 @@ Surprise: A Python library for recommender systems, 2020
 Wide-Slice Residual Networks for Food Recognition, 2016
 [https://arxiv.org/pdf/1612.06543.pdf](https://arxiv.org/pdf/1612.06543.pdf)
 
+<a id="8">[8]</a>
+Collaborative filtering and two stage recommender system with Surprise
+[https://www.the-odd-dataguy.com/2022/03/14/surprise/](https://www.the-odd-dataguy.com/2022/03/14/surprise/)
+
+
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 <!-- Project Logistics -->
