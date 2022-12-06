@@ -7,6 +7,7 @@ import pandas as pd
 import ast
 import numpy as np
 from functools import reduce
+from src.utilities import *
 
 
 def get_embeddings(algo):
@@ -113,7 +114,8 @@ def get_reccomendation_ids(model, user_id, recipe_ids, k=10000):
     df_pred = pd.DataFrame(predictions)
     df_rank = get_prediction_ranking(df_pred)
     ranked_list = df_rank.iloc[0].iid
-    return ranked_list[:min(len(ranked_list),k)]
+    ranked_preds = df_rank.iloc[0].est
+    return ranked_list[:min(len(ranked_list),k)],ranked_preds[:min(len(ranked_preds),k)]
 
 
 def recipe_meta_map(df_meta, recipe_ids):
@@ -124,6 +126,41 @@ def recipe_meta_map(df_meta, recipe_ids):
     df_subset['recipe_id'] = df_subset['id'].astype(cat_recipe)
     df_subset = df_subset.sort_values(['id'])
     return df_subset
+
+
+def match_ingredients(x,to_match, threshold = 0.25):
+    x = set(x)
+    to_match = set(to_match)
+    match_rate = len(x.intersection(to_match))/len(to_match)
+    return match_rate>=threshold
+
+
+def ad_final_reccom(user_id,ingredient_list,raw_interactions,recipe_metadata,\
+                    model_file="../../models/reccomender_model1_svd.pkl",k=20,\
+                    extra_filters=[],remove_old=True, threshold = 0.25):
+    #Read Model
+    model = load_pickle(model_file)
+    #find recipes with similar ingredients
+    mask_match_ingredients = recipe_metadata["ingredients_list"]\
+        .apply(lambda x: match_ingredients(x,ingredient_list, threshold))
+    #filter for extra filters
+    if len(extra_filters)>0:
+        combined_filter_mask = reduce(lambda x, y: x & y, extra_filters)
+        mask_final = mask_match_ingredients & combined_filter_mask
+    else:
+        mask_final = mask_match_ingredients
+    recipes_to_rank = recipe_metadata.loc[mask_final]["id"].unique()
+    #remove already interacted
+    if remove_old:
+        # Remove already interacted items
+        not_interacted, interacted = _user_items(raw_interactions, user_id)
+        recipes_to_rank = list(set(recipes_to_rank)-set(interacted))
+    #Score recipes
+    rec_ids,rec_preds = get_reccomendation_ids(model, user_id, recipes_to_rank, k)
+    meta_sub = recipe_meta_map(recipe_metadata, rec_ids)
+    meta_sub["rating_pred"] = rec_preds
+    return (meta_sub[["name","id","rating_pred","minutes","ingredients_list","nutrition_list"]])
+
 
 
 
