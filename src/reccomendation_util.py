@@ -6,6 +6,8 @@ Contact at ashish1610dhiman@gmail.com
 import pandas as pd
 import ast
 import numpy as np
+from functools import reduce
+
 
 def get_embeddings(algo):
     print (f"user shape:{algo.trainset.n_users}, item shape:{algo.trainset.n_items}")
@@ -64,11 +66,67 @@ def get_true_ranking_user(df_test, df_interactions, df_meta, user_id, item_id="r
                                                                       ascending=[False, True, True, True])
     return (list(df_user_join_subset_delta.recipe_id))
 
+
 def get_prediction_ranking(df_pred):
     df_pred = df_pred.sort_values(by=["uid", "est"], ascending=[True, False])
     df_rank = df_pred.groupby(['uid']).agg({'iid': lambda x: list(x), \
                                          'est': lambda x: list(x)}).reset_index()
     return df_rank
+
+def get_true_ranking_user_baseline(df_test, item_id="recipe_id"):
+    """
+    df_test --> DataFrame housing items to rank
+    """
+    df_pred = df_test.sort_values(by=["user_id", "rating"], ascending=[True, False])
+    df_rank = df_pred.groupby(['user_id']).agg({'recipe_id': lambda x: list(x), \
+                                            'rating': lambda x: list(x)}).reset_index()
+    return df_rank
+
+
+def gen_recipe_list(df_raw,user_id,filters=[]):
+    """
+    args:
+        df_raw --> pick recipe ids from this data frame
+        filters --> All filters to apply before
+    return:
+        recipe set
+    """
+    if len(filters)>0:
+        combined_filter = reduce(lambda x,y: x & y, filters)
+        df_filter = df_raw.loc[combined_filter]
+    else:
+        df_filter = df_raw
+    #Remove already interacted items
+    not_interacted,interacted = _user_items(df_raw, user_id)
+    mask_not_interacted = df_filter["recipe_id"].isin(not_interacted)
+    return (df_filter.loc[mask_not_interacted]["recipe_id"].unique())
+
+def get_reccomendation_ids(model, user_id, recipe_ids, k=10000):
+    """
+    user_id --> user_id to score
+    recipe_ids --> recipes to rank
+    k --> reccomend top k
+    """
+    test_set = [[user_id,recipe_id,None]\
+                for recipe_id in recipe_ids]
+    predictions = model.test(test_set)
+    df_pred = pd.DataFrame(predictions)
+    df_rank = get_prediction_ranking(df_pred)
+    ranked_list = df_rank.iloc[0].iid
+    return ranked_list[:min(len(ranked_list),k)]
+
+
+def recipe_meta_map(df_meta, recipe_ids):
+    df_subset = df_meta.loc[df_meta["id"].isin(recipe_ids)]
+    cat_recipe = pd.CategoricalDtype(
+        recipe_ids,
+        ordered=True)
+    df_subset['recipe_id'] = df_subset['id'].astype(cat_recipe)
+    df_subset = df_subset.sort_values(['id'])
+    return df_subset
+
+
+
 
 
 
