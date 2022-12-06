@@ -33,7 +33,13 @@ def _user_items(df_interactions, user_id, item_id="recipe_id"):
     return (list(all_items-all_user_items),list(all_user_items))
 
 
-def get_true_ranking_user(df_interactions, df_meta, user_id, item_id="recipe_id"):
+def get_true_ranking_user(df_test, df_interactions, df_meta, user_id, item_id="recipe_id"):
+    """
+    df_test --> DataFrame housing items to rank
+    df_interactions --> Cal,protein Average created using this dataframe
+    df_meta --> Recipe metadata
+    user_id --> Gen True ranking for user
+    """
     mask_user = df_interactions["user_id"] == user_id
     df_user = df_interactions.loc[mask_user]
     df_user_join = df_user.merge(df_meta, left_on=["recipe_id"], \
@@ -45,13 +51,24 @@ def get_true_ranking_user(df_interactions, df_meta, user_id, item_id="recipe_id"
     df_user_join_subset = df_user_join[["recipe_id", "rating", "calories", "protein_dv", "fat_dv"]]
     df_user_join_subset.index = df_user_join["recipe_id"]
     df_user_join_subset = df_user_join_subset.drop(columns=["recipe_id"])
-    user_delta = np.abs(df_user_join_subset - df_user_join_subset.mean())
-    user_delta.reset_index()
+    user_delta = np.abs(df_user_join_subset - df_user_join_subset.mean()) #TODO
+    user_delta = user_delta.reset_index()
     df_user_join_subset_delta = df_user_join_subset.merge(user_delta, on="recipe_id", suffixes=("", "_delta"))
+    #subset for only test recipes
+    recipe_test = set(df_test.loc[df_test["user_id"] == user_id]["recipe_id"])
+    df_user_join_subset_delta.reset_index()
+    # print (df_user_join_subset_delta.columns)
+    df_user_join_subset_delta = df_user_join_subset_delta[df_user_join_subset_delta["recipe_id"].isin(recipe_test)]
     df_user_join_subset_delta = df_user_join_subset_delta.sort_values(by=["rating", "calories_delta", \
                                                                           "protein_dv_delta", "fat_dv_delta"], \
                                                                       ascending=[False, True, True, True])
-    return (df_user_join_subset_delta)
+    return (list(df_user_join_subset_delta.recipe_id))
+
+def get_prediction_ranking(df_pred):
+    df_pred = df_pred.sort_values(by=["uid", "est"], ascending=[True, False])
+    df_rank = df_pred.groupby(['uid']).agg({'iid': lambda x: list(x), \
+                                         'est': lambda x: list(x)}).reset_index()
+    return df_rank
 
 
 
