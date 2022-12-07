@@ -886,7 +886,7 @@ Collaborative filtering and two stage recommender system with Surprise
 |:-------:|:---------------------------------------:|:----------------------------------------:|
 |    1    |         Classification with CNN         |      Manoj + Anshit + Abhinav            |
 |    2    | Querying Label with Ingredient Database |      Yibei + Ashish + Manoj + Anshit     |
-|    3    |          Recommendation System          |     Abhinav + Ashish + Yibei             |
+|    3    |          Recommendation System          |      Abhinav + Ashish + Yibei             |
 
 
 *Subject to alterations*
