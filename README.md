@@ -676,7 +676,7 @@ $$
 While NMF from the surprise library implements matrix factorisation as:
 
 $$
-Rating \sim User*Item^T
+Rating \sim User*Item^T\
 \text{subject to entries in User and Item Matrix are positive}
 $$
 
