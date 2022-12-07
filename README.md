@@ -658,6 +658,8 @@ def get_recipes_recommendations(i,k):
         return most_related_neighbors, recommended_recipes, common_recipes_dict
 ```
 
+
+
 ##### 2. Matrix Factorization
 Matrix factorization is a also a class of Recommendation Systems similar to collaborative filtering. However, unlike collaborative filtering which either based of user-user or item-item similarity, the Matrix factorization approaches along with these also take into account user-item similarity. The intuition here is to transform both users and items into a embedding space with highly predictive latent features. These features can then be used to provide a fair approximation of predictions of new items ratings.
 
@@ -673,7 +675,7 @@ R \sim Q*P + Bias(user,item)\
 \text{here Bias term is dependent on the average rating of user and item}
 $$
 
-While NMF from the surprise library implements matrix factorisation as:
+While NMF: Non-Negative Matrix Factorisation from the surprise library implements matrix factorisation as:
 
 $$
 Rating \sim User*Item^T\
@@ -681,6 +683,7 @@ Rating \sim User*Item^T\
 $$
 
 We use a Grid Search Cross Validation (with 5 folds) to arrive at the best hyperparameters of the two models.
+
 ```python
 param_grid = {"n_factors":[5, 25] ,"n_epochs": [20, 250], "lr_all": [0.001, 0.006],\
              "reg_all":[0.01,0.08]}
@@ -700,7 +703,7 @@ The comparison of the Cross validation RMSE and MAE values of the two tuned mode
 | rmse | 1.210064 | 1.293538 |
 | mae  | 0.731275 | 0.649197 |
 
-While SVD does better in terms of RMSE, NMF does better in terms of MAE. A possible hypothesis behind this might be
+While SVD does better in terms of RMSE, NMF does better in terms of MAE. A possible hypothesis behind this might be that since there are only positive entries with NMF
 
 Our tuned hyperparameters are as follows:
 
