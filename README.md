@@ -555,14 +555,17 @@ for j1,i in enumerate(list(set(df_train.user_id.values))):
                     del sl[-1]
 ```                    
     
- We have evaulated the model performance based on rmse value after doing a train test split with 4:1 ratio. 
+ We have evaulated the model performance based on rmse and mae value after doing a train test split on stratified sample.
  
  ```python
-print('train mse:', mse(train_predictions, train_targets))
-print('test mse:', mse(test_predictions, test_targets))
+print('train mse:', mse(list(train_predictions.values()), list(train_targets.values())))
+print('test mse:', mse(list(test_predictions.values()), list(test_targets.values())))
 
-print('train rmse:', rmse(train_predictions, train_targets))
-print('test rmse:', rmse(test_predictions, test_targets))
+print('train rmse:', rmse(list(train_predictions.values()), list(train_targets.values())))
+print('test rmse:', rmse(list(test_predictions.values()), list(test_targets.values())))
+
+print('train mae:', mae(list(train_predictions.values()), list(train_targets.values())))
+print('test mae:', mae(list(test_predictions.values()), list(test_targets.values())))
 ```
 
 ``` text
@@ -570,6 +573,8 @@ train mse: 0.8615178024084629
 test mse: 0.9062015866125724
 train rmse: 0.9281798330110728
 test rmse: 0.9519462099365554
+train mae: 0.522643529733127
+test mae:  0.5670269049700766
 ```
  
 
