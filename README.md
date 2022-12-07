@@ -577,6 +577,20 @@ train mae: 0.522643529733127
 test mae:  0.5670269049700766
 ```
  
+We also performed a Ranking Evaluation procedure using NDCG metric .
+
+## Ranking Based Evaluation Metrics
+**We do not have rankings as of now in our truth data set , so we leverage cosine similarity between recipes's embedding and user's average embedding to break up recipes having the same rating into probable rankings . This would enable use to calculate various Ranking based evaluation metrics such as NDCG and MAP@k**
+
+**Our embedding vector has 3 features -> Calories , Protein and Carbs.**
+
+```python
+print(f"Mean NDCG score is {np.nanmean(ndcg_list)}")
+```
+
+```text
+0.939857
+```
 
 ##### 2. Matrix Factorisation
 The matrix factorization method will use the concept of Singular Value Decomposition to obtain highly predictive latent features using the sparse ratings matrix and provide a fair approximation of predictions of new items ratings.
