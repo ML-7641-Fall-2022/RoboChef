@@ -100,7 +100,8 @@ In this module, we have trained a CNN model to predict the correct food category
 
 #### Exploratory Data Analysis
 
-For each category, we have 750 images in the training set and 250 images in the test set. The training set is further split into 20% validation and 80% training set.
+For each category, we have 750 images in the training set and 250 images in the test set. The training set is 
+split into 20% validation and 80% training set.
 
 Total Training set: 60600 images <br>
 Total Validation set: 15150 images <br>
@@ -170,10 +171,10 @@ This model performs much better than the previous model and accurately predicts 
 
 The model's top losses can be seen here where it predicts with quite high possibility but misclassifies.
 
-#### Further Exploration
+#### Points for Further Exploration
 
-1.  Exploring different architectures such as ResNet200 and Efficient Net to train the model and check for increase in accuracy.
-2.  Exploring various image augmentation techniques in train and test data both to achieve better and robust results.
+1. Exploring different architectures such as ResNet200 and Efficient Net to train the model and check for increase in accuracy.
+2. Exploring various image augmentation techniques in train and test data both to achieve better and robust results.
 3. Based on the most confused matrix and top losses plot images, we could adjust the augmentation hyper-parameters
 4. Try training by unfreezing the model weights to train the last few layers and achieving higher accuracy.
 
@@ -660,8 +661,8 @@ def get_recipes_recommendations(i,k):
 
 
 
-##### 2. Matrix Factorization
-Matrix factorization is a also a class of Recommendation Systems similar to collaborative filtering. However, unlike collaborative filtering which either based of user-user or item-item similarity, the Matrix factorization approaches along with these also take into account user-item similarity. The intuition here is to transform both users and items into a embedding space with highly predictive latent features. These features can then be used to provide a fair approximation of predictions of new items ratings.
+##### 2. Matrix Factorisation
+Matrix factorisation is a also a class of Recommendation Systems similar to collaborative filtering. However, unlike collaborative filtering which either based of user-user or item-item similarity, the Matrix factorisation approaches along with these also take into account user-item similarity. The intuition here is to transform both users and items into a embedding space with highly predictive latent features. These features can then be used to provide a fair approximation of predictions of new items ratings.
 
 $$
 Rating \sim User*Item^T 
@@ -671,14 +672,14 @@ For our implementation we have experimented with two class of matrix factorisati
 We use SVD from the surprise library, which implements a biased matrix factorisation as:
 
 $$
-R \sim Q*P + Bias(user,item)\
+R \sim Q*P + Bias(user,item)\\
 \text{here Bias term is dependent on the average rating of user and item}
 $$
 
 While NMF: Non-Negative Matrix Factorisation from the surprise library implements matrix factorisation as:
 
 $$
-Rating \sim User*Item^T\
+Rating \sim User*Item^T\\
 \text{subject to entries in User and Item Matrix are positive}
 $$
 
@@ -831,7 +832,7 @@ def ad_final_reccom(user_id,ingredient_list,raw_interactions,recipe_metadata,\
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
-### Points for further exploration
+### Points for Further Exploration
 
 - Applications of NLP
 - Applications of autoencoders to learn underlying feature representation and provide a more personalized recommendation.
