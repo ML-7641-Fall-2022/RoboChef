@@ -477,6 +477,8 @@ c.<=20  d.>20  78.5081   0.0 75.4653  81.551   True
 TRAIN__Validation_SIZE = 0.8
 TEST_SIZE = 0.2
 ```
+We have split our dataset by stratifying at the level of user_id wherever possible. In cases where we are unable to divide the interactions between our train and test set in the above ratio, we randomly pick one row and place it in Train.
+While evaluating our model we have also filtered our data to only include users which have a high number of interactions. 
 
 We have tried two approaches for recommendation system:
 ##### 1. Collaborative Filtering 
@@ -579,7 +581,7 @@ test mae:  0.5670269049700766
  
 We also performed a Ranking Evaluation procedure using NDCG metric .
 
-## Ranking Based Evaluation Metrics
+###### Ranking Based Evaluation Metrics
 **We do not have rankings as of now in our truth data set , so we leverage cosine similarity between recipes's embedding and user's average embedding to break up recipes with the same rating into different rankings . This would enable use to calculate various Ranking based evaluation metrics such as NDCG and MAP@k as the predictions can be categorized into ranking as their values are outlayed on a continuous scale**
 
 **Our embedding vector has 3 features -> Calories , Protein and Carbs.**
@@ -591,7 +593,7 @@ print(f"Mean NDCG score is {np.nanmean(ndcg_list)}")
 ```text
 0.939857
 ```
-## Getting Recommendations for any new user : 
+###### Getting Recommendations for any new user : 
 
 **Final piece is to integrate any user into our user-recipe interaction matrix and create a recommendation function that would find the list of nearest neighbors and fork out recommendations based on the collaborative filtering technique discussed above**
 
@@ -678,8 +680,14 @@ def get_recipes_recommendations(i,k):
         return most_related_neighbors, recommended_recipes, common_recipes_dict
 ```
 
-##### 2. Matrix Factorisation
-The matrix factorization method will use the concept of Singular Value Decomposition to obtain highly predictive latent features using the sparse ratings matrix and provide a fair approximation of predictions of new items ratings.
+##### 2. Matrix Factorization
+Matrix factorization is a also a class of Recommendation Systems similar to collaborative filtering. However, unlike collaborative filtering which either based of user-user or item-item similarity, the Matrix factorization approaches along with these also take into account user-item similarity. The intuition here is to transform both users and items into a embedding space with highly predictive latent features. These features can then be used to provide a fair approximation of predictions of new items ratings.
+
+$$
+Rating \sim User*Item^T 
+$$
+
+For our implementation we have experimented with two class of matrix factorisation methods, namely: SVD and NMF.
 We use SVD from the surprise library, which implements a biased matrix factorisation as:
 
 $$
@@ -687,55 +695,165 @@ R \sim Q*P + Bias(user,item)\
 \text{here Bias term is dependent on the average rating of user and item}
 $$
 
-The key hyper parameter in the Matrix Factorisation approach is the k or the number of latent features to use for the matrix decomposition. We use a Grid Search CV (with 5 folds) to arrive at the best value.
+While NMF from the surprise library implements matrix factorisation as:
+
+$$
+Rating \sim User*Item^T
+\text{subject to entries in User and Item Matrix are positive}
+$$
+
+We use a Grid Search Cross Validation (with 5 folds) to arrive at the best hyperparameters of the two models.
 ```python
-param_grid = {"n_factors":[20, 50] ,"n_epochs": [10, 15], "lr_all": [0.002, 0.005]}
-gs = GridSearchCV(SVD, param_grid, measures=["rmse", "mae"], cv=5, n_jobs = -2)
+param_grid = {"n_factors":[5, 25] ,"n_epochs": [20, 250], "lr_all": [0.001, 0.006],\
+             "reg_all":[0.01,0.08]}
+param_grid2 = {"n_factors":[5, 25] ,"n_epochs": [2, 20], "reg_pu":[0.01,0.1], "reg_qi":[0.01,0.1]}
 
+gs_svd = GridSearchCV(SVD, param_grid, measures=["rmse", "mae"], cv=5, n_jobs = -2, joblib_verbose=3)
+gs_nmf = GridSearchCV(NMF, param_grid2, measures=["rmse", "mae"], cv=5, n_jobs = -2, joblib_verbose=3)
 
-gs.fit(cv_data)
-
-# best RMSE score
-print(gs.best_score["rmse"])
-#1.218094140876164
-
-# combination of parameters that gave the best RMSE score
-print(gs.best_params["rmse"])
-#{'n_factors': 20, 'n_epochs': 15, 'lr_all': 0.005}
-
-print(gs.best_params["mae"])
-#{'n_factors': 20, 'n_epochs': 15, 'lr_all': 0.005}
+gs_nmf.fit(cv_data)
+gs_svd.fit(cv_data)
 ```
 
-For the above choice of hyperparameters our Test RMSE is:
+The comparison of the Cross validation RMSE and MAE values of the two tuned models are provided below:
+
+|      | svd      | nmf      |
+|------|----------|----------|
+| rmse | 1.210064 | 1.293538 |
+| mae  | 0.731275 | 0.649197 |
+
+While SVD does better in terms of RMSE, NMF does better in terms of MAE. A possible hypothesis behind this might be
+
+Our tuned hyperparameters are as follows:
+
 ```python
-predictions = algo.test(test_set_surprise)
-accuracy.rmse(predictions, verbose=True)
-#RMSE: 1.2117
+gs_svd.best_params["rmse"]
+#{'n_factors': 5, 'n_epochs': 20, 'lr_all': 0.006, 'reg_all': 0.08}
+
+gs_nmf.best_params["mae"]
+#{'n_factors': 25, 'n_epochs': 2, 'reg_pu': 0.01, 'reg_qi': 0.01}
 ```
 
-###### Analysis of latent features
+
+For the above choice of hyperparameters, we get the follwing RMSE and MAE for complete test set:
+
+|      | svd      | nmf      |
+|------|----------|----------|
+| rmse | 1.239876 | 1.293538 |
+| mae  | 1.354563 | 0.661265 |
+
+
+##### Analysis of latent features
+
 The decomposed user and rating matrix is given as:
+
 ```python
-user_matrix = algo.pu
-user_matrix.shape
-#(192203, 20)
-
-recipe_matrix = algo.qi
-recipe_matrix.shape
-#(211175, 20)
+model1 = load_pickle("../../models/reccomender_model1_svd.pkl")
+user_embeddings1,item_embeddings1 = get_embeddings(model1)
+user_embeddings1.shape, item_embeddings1.shape
+#((193016, 5), (209610, 5))
 ```
-We have tried to check the correlation of the 20 latent features, with recipe metadata, namely minutes, n_steps and n_ingredients. However, we do not see any apparent correlation.
 
-![Corelation plot](./images/latent_features_corelation.png?raw=true)
+We have leveraged TSNE to decompose the latent features from 5 to two dimensions.
 
-In the next iteration, we hope to derive embeddings from description and ingredients from the recipe metadata, and do a similar analysis.
-Also in the next iteration we hope to have to not only ensure greater accuracy on ratings prediction but also have the most relevant items at the top of the recommendation list i.e. ranking of the recommendations, like: **MAP@k** (Mean Average Precision at K) and **NDCG** (Normalized Discounted Cummulative Gain).
+The TSNSE reduced factors however do not present any significant corealtion with other recipe metadata.
+
+| **Corelation Matrix** | x         | y        | calories  | fat_dv    | sugar_dv  | sodium_dv | protein_dv | sat_fat   | carbs_dv  |
+|-----------------------|-----------|----------|-----------|-----------|-----------|-----------|------------|-----------|-----------|
+| x                     | 1.000000  | 0.039843 | -0.002777 | -0.002593 | -0.001917 | 0.000527  | -0.000602  | -0.002226 | -0.002231 |
+| y                     | 0.039843  | 1.000000 | 0.004007  | 0.002091  | 0.004270  | 0.001621  | 0.001300   | 0.001880  | 0.004013  |
+| calories              | -0.002777 | 0.004007 | 1.000000  | 0.577752  | 0.886453  | 0.175863  | 0.482473   | 0.514291  | 0.924440  |
+| fat_dv                | -0.002593 | 0.002091 | 0.577752  | 1.000000  | 0.181600  | 0.196238  | 0.546989   | 0.886682  | 0.237718  |
+| sugar_dv              | -0.001917 | 0.004270 | 0.886453  | 0.181600  | 1.000000  | 0.075632  | 0.193752   | 0.165586  | 0.982693  |
+| sodium_dv             | 0.000527  | 0.001621 | 0.175863  | 0.196238  | 0.075632  | 1.000000  | 0.249375   | 0.166186  | 0.104650  |
+| protein_dv            | -0.000602 | 0.001300 | 0.482473  | 0.546989  | 0.193752  | 0.249375  | 1.000000   | 0.492001  | 0.243491  |
+| sat_fat               | -0.002226 | 0.001880 | 0.514291  | 0.886682  | 0.165586  | 0.166186  | 0.492001   | 1.000000  | 0.212442  |
+| carbs_dv              | -0.002231 | 0.004013 | 0.924440  | 0.237718  | 0.982693  | 0.104650  | 0.243491   | 0.212442  | 1.000000  |
+
+We also tried to create a scatter plot of TSNE features (x/y) wrt calories and other macros, but there is no apparent pattern.
+
+![Demo 1](./images/scatter1.png?raw=true)
+
+![Demo 1](./images/scatter2.png?raw=true)
+
+
+##### Comparison between models
+
+For evaluating our model we have looked at not only accuracy on rating prediction but  the relevance of ordering of the recommendation list i.e. ranking of the recommendations, like: **NDCG** (Normalized Discounted Cumulative Gain).
+
+The below table presents the comparative performance of different models on test data filtered for users with atleast 10 interactions.
+
+|               | **SVD**         | **NMF**         | **Collaborative Filtering** |
+|---------------|-----------------|-----------------|-----------------------------|
+| _RMSE_        |        0.94334  |        1.06578  | 0.971256184                 |
+| _MAE_         |        0.57649  |        0.46979  | 0.567026905                 |
+| _NDCG1_       |        0.915253 |        0.915288 | 0.93                        |
+| _NDCG1-top10_ |                 |                 |                             |
+| _NDCG2_       |        0.975078 |        0.970257 |                             |
+| _NDCG2-top10_ |        0.936421 |        0.923517 |                             |
+
+
+
+*NDCG1 is where ties between true ratings are are broken by macros:{Caloreis,Protein,Fat}*
+*NDCG2 is where ties between true ratings are ignored, i.e. All recipes with rating 5 are considered equivalent*
+
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
+
+#### Recommendation Demo
+We have utilised the SVD model to generate our final recommendations. We take as input the user_id and ingredients_list (generated from output of CNN module). We constrain our recommendations with the ingredients lists, basis a threshold matching. In other words we only recommend recipes which have at least x% ingredients common with our ingredients_list. We also allow for additional filters basis protein, calories and other macros to be placed on the recommendation set.
+
+```python
+def ad_final_reccom(user_id,ingredient_list,raw_interactions,recipe_metadata,\
+                    model_file="../../models/reccomender_model1_svd.pkl",k=20,\
+                    extra_filters=[],remove_old=True, threshold = 0.25):
+    """
+    user_id -> user ID for Recommendation Engine
+    ingredient_list -> List of Ingredients from CNN Output
+    raw_interactions -> The raw interactions data
+    recipe_metadata -> Metadata of recipes
+    threshold -> Threshold for ingredients to match
+    """
+    #Read Model
+    model = load_pickle(model_file)
+    #find recipes with similar ingredients
+    mask_match_ingredients = recipe_metadata["ingredients_list"]\
+        .apply(lambda x: match_ingredients(x,ingredient_list, threshold))
+    #filter for extra filters
+    if len(extra_filters)>0:
+        combined_filter_mask = reduce(lambda x, y: x & y, extra_filters)
+        mask_final = mask_match_ingredients & combined_filter_mask
+    else:
+        mask_final = mask_match_ingredients
+    recipes_to_rank = recipe_metadata.loc[mask_final]["id"].unique()
+    #remove already interacted
+    if remove_old:
+        # Remove already interacted items
+        not_interacted, interacted = _user_items(raw_interactions, user_id)
+        recipes_to_rank = list(set(recipes_to_rank)-set(interacted))
+    #Score recipes
+    rec_ids,rec_preds = get_reccomendation_ids(model, user_id, recipes_to_rank, k)
+    df_pred = pd.DataFrame.from_dict({
+        "recipe_id":rec_ids,"rating_pred":rec_preds\
+        })
+    meta_sub = recipe_meta_map(recipe_metadata, df_pred)
+    return (meta_sub[["name","id","rating_pred","minutes","ingredients_list","nutrition_list"]])
+```
+
+- Vanilla Recomendations
+  ![Demo 1](./images/rec1.png?raw=true)
+- Vanilla Recomendations + Threshold change
+  ![Demo 2](./images/rec2.png?raw=true)  
+- Vanilla Recomendations + Threshold change + Macros Filter
+  ![Demo 3](./images/rec3.png?raw=true)  
+- Vanilla Recomendations + Threshold change + Macros Filter + only top 10
+  ![Demo 4](./images/rec4.png?raw=true) 
+
+![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 ### Points for further exploration
 
+- Applications of NLP
 - Applications of autoencoders to learn underlying feature representation and provide a more personalized recommendation.
-- Added functionality to recommend the food items that can be prepared using the ingredients image a user has uploaded.
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 

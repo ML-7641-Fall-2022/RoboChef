@@ -134,6 +134,13 @@ def match_ingredients(x,to_match, threshold = 0.25):
 def ad_final_reccom(user_id,ingredient_list,raw_interactions,recipe_metadata,\
                     model_file="../../models/reccomender_model1_svd.pkl",k=20,\
                     extra_filters=[],remove_old=True, threshold = 0.25):
+    """
+    user_id -> user ID for Recommendation Engine
+    ingredient_list -> List of Ingredients from CNN Output
+    raw_interactions -> The raw interactions data
+    recipe_metadata -> Metadata of recipes
+    threshold -> Threshold for ingredients to match
+    """
     #Read Model
     model = load_pickle(model_file)
     #find recipes with similar ingredients
