@@ -118,13 +118,9 @@ def get_reccomendation_ids(model, user_id, recipe_ids, k=10000):
     return ranked_list[:min(len(ranked_list),k)],ranked_preds[:min(len(ranked_preds),k)]
 
 
-def recipe_meta_map(df_meta, recipe_ids):
-    df_subset = df_meta.loc[df_meta["id"].isin(recipe_ids)]
-    cat_recipe = pd.CategoricalDtype(
-        recipe_ids,
-        ordered=True)
-    df_subset['recipe_id'] = df_subset['id'].astype(cat_recipe)
-    df_subset = df_subset.sort_values(['id'])
+def recipe_meta_map(df_meta, df_pred):
+    df_subset = df_meta.merge(df_pred,left_on="id",right_on="recipe_id")
+    df_subset = df_subset.sort_values(['rating_pred'],ascending=False)
     return df_subset
 
 
@@ -157,8 +153,11 @@ def ad_final_reccom(user_id,ingredient_list,raw_interactions,recipe_metadata,\
         recipes_to_rank = list(set(recipes_to_rank)-set(interacted))
     #Score recipes
     rec_ids,rec_preds = get_reccomendation_ids(model, user_id, recipes_to_rank, k)
-    meta_sub = recipe_meta_map(recipe_metadata, rec_ids)
-    meta_sub["rating_pred"] = rec_preds
+    df_pred = pd.DataFrame.from_dict({
+        "recipe_id":rec_ids,\
+        "rating_pred":rec_preds
+    })
+    meta_sub = recipe_meta_map(recipe_metadata, df_pred)
     return (meta_sub[["name","id","rating_pred","minutes","ingredients_list","nutrition_list"]])
 
 
