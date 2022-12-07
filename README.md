@@ -131,6 +131,19 @@ Our loss function is cross-entropy.
 
 #### Modeling
 
+##### Finding Optimal Learning Rate
+
+We have used FastAI library to find the optimal learning rate. It trains learner over a few iterations. Start with a very low start_lr and change it at each mini-batch until it reaches a very high end_lr. Output will be recorded as the loss at each iteration. Plot those losses against the learning rate to find the optimal value before it diverges.
+
+The optimal learning rate is around 1e-2, right before the minimm loss.
+
+![OptimalLR](./images/optimal_lr.png?raw=true)
+
+```python
+learn = vision_learner(train_data_aug, resnet50, metrics=[accuracy, top_5_accuracy, error_rate])
+learn.lr_find()
+```
+
 ##### 1. ResNet34
 
 In the initial model we are leveraging transfer learning and using ResNet34 pre-trained model for classifying food items.
@@ -171,12 +184,19 @@ This model performs much better than the previous model and accurately predicts 
 
 The model's top losses can be seen here where it predicts with quite high possibility but misclassifies.
 
+___Unfreezing the model___
+
+We can unfreeze the CNN layers of the model and train the weights along with the fully connected layers to improve the accuracy of our model.
+
+![UnfreezeResNet50Fit](./images/unfreeze-resnet50-fit.png?raw=true)
+
+![UnfreezeResNet50Fit](./images/unfreeze-resnet50-loss-vs-iterations.png?raw=true)
+
+As we can see we were able to increase the overall accuracy to 79.8% and the top-5 accuracy to 94% for our model.
+
 #### Points for Further Exploration
 
 1. Exploring different architectures such as ResNet200 and Efficient Net to train the model and check for increase in accuracy.
-2. Exploring various image augmentation techniques in train and test data both to achieve better and robust results.
-3. Based on the most confused matrix and top losses plot images, we could adjust the augmentation hyper-parameters
-4. Try training by unfreezing the model weights to train the last few layers and achieving higher accuracy.
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
