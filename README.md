@@ -448,7 +448,7 @@ c.<=20  d.>20  78.5081   0.0 75.4653  81.551   True
 ---------------------------------------------------
 ```
 
-#### Modelling
+#### Modeling
 
 ```python
 TRAIN__Validation_SIZE = 0.8
@@ -458,6 +458,7 @@ TEST_SIZE = 0.2
 We have tried two approaches for recommendation system:
 ##### 1. Collaborative Filtering 
 We have used user-user collaborative filtering technique to predict the ratings for recipes not yet consumed by the user and use it to fork out recommendations for recipes with the highest predicted prorbability for a given user. 
+Also , since the number of users is comparatively lesser as compared to the number of recipes , the user-user approach is computationally efficient.
 
 Since , this method leverages the ratings from a list of closest users corresponding to each user based on their common recipes , therefore we have filtered for only those users and recipes which have atleast 10 interactions in the overall dataset.
 
