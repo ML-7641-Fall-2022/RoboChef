@@ -703,7 +703,7 @@ The comparison of the Cross validation RMSE and MAE values of the two tuned mode
 | rmse | 1.210064 | 1.293538 |
 | mae  | 0.731275 | 0.649197 |
 
-While SVD does better in terms of RMSE, NMF does better in terms of MAE. A possible hypothesis behind this might be that since there are only positive entries with NMF
+While SVD does better in terms of RMSE, NMF does better in terms of MAE. A possible hypothesis behind this might be that since there are only positive entries with NMF, the latent factors created only have a additive effect on the rating and not negative.
 
 Our tuned hyperparameters are as follows:
 
