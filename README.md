@@ -462,9 +462,9 @@ We have used user-user collaborative filtering technique to predict the ratings 
 Since , this method leverages the ratings from a list of closest users corresponding to each user based on their common recipes , therefore we have filtered for only those users and recipes which have atleast 10 interactions in the overall dataset.
 
 ```python
-user_ids_count = Counter(df_raw.user_idx)
-recipe_ids_count = Counter(df_raw.recipe_idx)
-df_small = df_raw[(df_raw.user_idx.isin(user_ids_keep)) & df_raw.recipe_idx.isin(recipe_ids_keep)].reset_index(drop=True).copy()
+user_ids_count = Counter(df_raw.user_id)
+user_ids_keep = [i for (i,j) in user_ids_count.most_common()[::-1] if j>=5]
+df_small = df_raw[(df_raw.user_id.isin(user_ids_keep))].reset_index(drop=True)
 ```
 
 The similarity between 2 users is computed using the Pearson Correlation coefficient based on all the ratings for the common recipes. Also , only those set of users are considered as neighboring points who have atleast 5 common recipes so that our recommendation is not biased. 
