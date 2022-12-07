@@ -671,14 +671,14 @@ For our implementation we have experimented with two class of matrix factorisati
 We use SVD from the surprise library, which implements a biased matrix factorisation as:
 
 $$
-R \sim Q*P + Bias(user,item)\
+R \sim Q*P + Bias(user,item)\\
 \text{here Bias term is dependent on the average rating of user and item}
 $$
 
 While NMF: Non-Negative Matrix Factorisation from the surprise library implements matrix factorisation as:
 
 $$
-Rating \sim User*Item^T\
+Rating \sim User*Item^T\\
 \text{subject to entries in User and Item Matrix are positive}
 $$
 
