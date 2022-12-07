@@ -591,7 +591,7 @@ print(f"Mean NDCG score is {np.nanmean(ndcg_list)}")
 ```text
 0.939857
 ```
-## Getting Recommendations for any user : 
+## Getting Recommendations for any new user : 
 
 **Final piece is to integrate any user into our user-recipe interaction matrix and create a recommendation function that would find the list of nearest neighbors and fork out recommendations based on the collaborative filtering technique discussed above**
 
