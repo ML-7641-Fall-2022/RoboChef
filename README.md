@@ -720,8 +720,8 @@ For the above choice of hyperparameters, we get the follwing RMSE and MAE for co
 
 |      | svd      | nmf      |
 |------|----------|----------|
-| rmse | 1.239876 | 1.293538 |
-| mae  | 1.354563 | 0.661265 |
+| rmse | 1.239876 | 1.354563 |
+| mae  | 0.759527 | 0.661265 |
 
 
 ##### Analysis of latent features
