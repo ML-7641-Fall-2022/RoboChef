@@ -549,7 +549,7 @@ for j1,i in enumerate(list(set(df_train.user_id.values))):
                 # insert into sorted list and truncate
                 # negate absolute weight, because list is sorted ascending and we get all neighbors with the highest correlation
                 # maximum value (1) is "closest"
-                sl.add((-np.abs(w_ij), j))
+                sl.add((-(w_ij), j))
                 # Putting an upper cap on the number of neighbors
                 if len(sl)>K:
                     del sl[-1]
@@ -580,7 +580,7 @@ test mae:  0.5670269049700766
 We also performed a Ranking Evaluation procedure using NDCG metric .
 
 ## Ranking Based Evaluation Metrics
-**We do not have rankings as of now in our truth data set , so we leverage cosine similarity between recipes's embedding and user's average embedding to break up recipes having the same rating into probable rankings . This would enable use to calculate various Ranking based evaluation metrics such as NDCG and MAP@k**
+**We do not have rankings as of now in our truth data set , so we leverage cosine similarity between recipes's embedding and user's average embedding to break up recipes with the same rating into different rankings . This would enable use to calculate various Ranking based evaluation metrics such as NDCG and MAP@k as the predictions can be categorized into ranking as their values are outlayed on a continuous scale**
 
 **Our embedding vector has 3 features -> Calories , Protein and Carbs.**
 
@@ -590,6 +590,90 @@ print(f"Mean NDCG score is {np.nanmean(ndcg_list)}")
 
 ```text
 0.939857
+```
+
+**Final piece was to integrate any user into our user-recipe interaction matrix and create a recommendation function that would find the list of nearest neighbors and fork out recommendations based on the collaborative filtering technique discussed above**
+
+**Attaching the code snippet below for the get_recommendations_function**
+
+```python
+def get_recipes_recommendations(i,k):
+    """
+    Input : i ---> user_id for which we need recommendations
+            k ---> The number of recipe recommendations wanted
+    Output : 
+            most_related_neighbors ---> a list of most related user_id's based on pearson correlation coefficient
+            recommended_recipes ---> list of recommended recipes based on similar user's likings
+            common_recipes_dict ---> Dictionary of neighbors and common_recipes 
+    """
+        common_recipes_dict = {}
+        recipes_i = user2recipe[i]
+        recipes_i_set = set(recipes_i)
+
+        # calculate avg and deviation
+        ratings_i = {recipe: userrecipe2rating[(i, recipe)] for recipe in recipes_i}
+        avg_i = np.mean(list(ratings_i.values()))
+        dev_i = {recipe: (rating - avg_i) for recipe, rating in ratings_i.items()}
+        dev_i_values = np.array(list(dev_i.values()))
+        sigma_i = np.sqrt(dev_i_values.dot(dev_i_values))
+
+        # save these for later use
+        averages[i] = avg_i
+        deviations[i] = dev_i
+
+        sl = SortedList()
+        for j in list(set(data_train_v1.user_idx.values)):
+            if j != i:
+                recipes_j = user2recipe[j]
+                recipes_j_set = set(recipes_j)
+                common_recipes = (recipes_i_set & recipes_j_set)
+
+                if (len(common_recipes) > limit):
+                    common_recipes_dict[j] = list(common_recipes)
+                    ratings_j = {recipe: userrecipe2rating[(
+                        j, recipe)] for recipe in recipes_j}
+                    avg_j = np.mean(list(ratings_j.values()))
+                    dev_j = {recipe: (rating - avg_j)
+                             for recipe, rating in ratings_j.items()}
+                    dev_j_values = np.array(list(dev_j.values()))
+                    sigma_j = np.sqrt(dev_j_values.dot(dev_j_values))
+
+                    # calculate correlation coefficient
+                    numerator = sum(dev_i[m]*dev_j[m] for m in common_recipes)
+                    denominator = ((sigma_i+SIGMA_CONST)
+                                   * (sigma_j+SIGMA_CONST))
+                    w_ij = numerator / (denominator)
+                    # insert into sorted list and truncate
+                    # negate absolute weight, because list is sorted ascending and we get all neighbors with the highest correlation
+                    # maximum value (1) is "closest"
+                    sl.add((-(w_ij), j))
+                    # Putting an upper cap on the number of neighbors
+                    if len(sl) > K:
+                        del sl[-1]
+
+        neighbors[i] = sl
+        try:
+            most_related_neighbors = [j for i, j in neighbors[i][:10]]
+        except:
+            most_related_neighbors = [j for i, j in neighbors[i]]
+        for i in most_related_neighbors:
+            recipes_i = user2recipe[i]
+            recipes_i_set = set(recipes_i)
+            ratings_i = {recipe: userrecipe2rating[(i, recipe)] for recipe in recipes_i}
+            recommended_recipe_list.append(ratings_i)
+
+        total = Counter()
+        for j in recommended_recipe_list:
+            total += Counter(j)
+        recommended_recipe_ids = [i for i, j in total.most_common(k)]
+        recommended_recipes = []
+
+        for recipe_id in recommended_recipe_ids:
+            recommended_recipes.append(
+                [(i, j) for i, j in recipe2idx.items() if j == recipe_id][0][0])
+        recommended_recipes = list(set(recommended_recipes)-set(user2recipe[i]))
+
+        return most_related_neighbors, recommended_recipes, common_recipes_dict
 ```
 
 ##### 2. Matrix Factorisation
